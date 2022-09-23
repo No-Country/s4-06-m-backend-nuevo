@@ -14,11 +14,6 @@
     <name>eco</name>
     <description>Ecommerce Eco Sport</description>
     <properties>
-        <java.version>11</java.version>
-
-
-    </properties>
-    <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
