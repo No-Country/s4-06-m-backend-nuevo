@@ -30,8 +30,10 @@ public class User implements UserDetails {
     @NotBlank(message = "Password cannot be empty.")
     @Size(min = 8, max = 250, message = "Password should have at least 8 characters")
     private String password;
-
-    private final boolean softDeleted = Boolean.FALSE;
+    private boolean softDeleted = Boolean.FALSE;
+    @JoinColumn(name="user_img")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Image image;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
     private Role role;

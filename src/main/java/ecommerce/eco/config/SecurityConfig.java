@@ -57,6 +57,11 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,"/auth/register").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/auth/logout").permitAll()
+                /*User*/
+                .antMatchers(HttpMethod.GET,"/user/{id}").permitAll()
+                .antMatchers(HttpMethod.GET,"/user/all").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/user/{id}").permitAll()
+                .antMatchers(HttpMethod.PUT,"/user/{id}").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
