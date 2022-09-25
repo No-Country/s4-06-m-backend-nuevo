@@ -28,13 +28,15 @@ public class AwsServiceImpl implements AwsService {
     @Value("${aws.s3.bucket}")
     private String bucketName ;
     private String newFileName="";
-
+    /*TODO: Convertir MultipartFile en archivo imagen */
     public String nameNewFile(MultipartFile file, File newfile){
         try (FileOutputStream stream = new FileOutputStream(newfile)) {
             stream.write(file.getBytes()); //multipartFile
+            //agrega fecha en milesgundo como nombre del archivo
             newFileName = System.currentTimeMillis() + "_" + newfile.getName();
         }catch (IOException e)
         {   throw new RuntimeException("Error: Conversion de archivo" + e.getMessage()); }
+        //retorna nombre de archivo
         return newFileName;
     }
 

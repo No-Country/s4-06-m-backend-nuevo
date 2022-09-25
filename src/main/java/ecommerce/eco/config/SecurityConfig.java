@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,"/user/{id}").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/all").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/user/{id}").permitAll()
-                .antMatchers(HttpMethod.PUT,"/user/{id}").permitAll()
+                .antMatchers(HttpMethod.PUT,"/user/update").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

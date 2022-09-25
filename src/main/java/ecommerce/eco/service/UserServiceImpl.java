@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse getById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
         if (user.isSoftDeleted()) {
-            throw new EntityNotFoundException("User not found");
+            throw new EntityNotFoundException("User not found or deleted");
         }
         return userMapper.dtoToEntityUser(user);
     }
@@ -67,11 +67,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse update(UserUpdateRequest request, MultipartFile image) {
-     /*   User user =getInfoUser();
+        User user =getInfoUser();
+        //convetimos archivo multiportFle en image
         Image i=imageService.imageUser(image);
         User userSaved=userRepository.save(userMapper.updateToMaper(user, request, i));
-        return userMapper.dtoToEntityUser(userSaved);*/
-        return null;
+        return userMapper.dtoToEntityUser(userSaved);
     }
 
     private User getUser(Long id) {

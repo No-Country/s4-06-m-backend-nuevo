@@ -1,8 +1,11 @@
 package ecommerce.eco.model.mapper;
 
+import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.UserRequest;
+import ecommerce.eco.model.request.UserUpdateRequest;
 import ecommerce.eco.model.response.AuthResponse;
+import ecommerce.eco.model.response.ImageResponse;
 import ecommerce.eco.model.response.UserResponse;
 import ecommerce.eco.service.abstraction.RoleService;
 import ecommerce.eco.util.RolesEnum;
@@ -34,11 +37,23 @@ public class UserMapper {
               .build();
     }
     public UserResponse dtoToEntityUser(User user){
+        ImageResponse i=new ImageResponse();
+        if (user.getImage()==null){
+            user.setImage(null);
+        }else {
+           i=imageMapper.imageToDto(user.getImage());
+        }
         return UserResponse.builder()
                 .id(user.getId())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
+                .image(i)
                 .build();
     }
-
+    public  User updateToMaper(User user, UserUpdateRequest request, Image i){
+        user.setImage(i);
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        return  user;
+    }
 }
