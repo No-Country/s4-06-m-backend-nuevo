@@ -1,5 +1,6 @@
 package ecommerce.eco.model.entity;
 
+
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

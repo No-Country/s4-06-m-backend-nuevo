@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
@@ -29,6 +30,7 @@ public class AuthController {
     /*@ApiOperation(value = "Registration method", notes = "Returns a registered user" )*/
     @ApiOperation(value = "User register the system", notes = "Returns a register user" )
     @PostMapping("/register")
+
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequest request) throws IOException {
         AuthResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -36,7 +38,7 @@ public class AuthController {
 
     @ApiOperation(value = "User login to the system", notes = "Returns a login user" )
     @PostMapping("/login")
-    private ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request){
+    private ResponseEntity<AuthResponse> login( @RequestBody @Valid AuthRequest request){
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }

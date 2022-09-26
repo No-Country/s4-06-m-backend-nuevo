@@ -1,12 +1,11 @@
 package ecommerce.eco.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ecommerce.eco.util.CartEnum;
+import ecommerce.eco.model.enums.CartEnum;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
