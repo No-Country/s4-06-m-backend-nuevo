@@ -48,8 +48,7 @@ public class UserMapper {
         }
         return response;
     }
-    public  User updateToMaper(User user, UserUpdateRequest request, Image i){
-        user.setImage(i);
+    public  User updateToMaper(User user, UserUpdateRequest request){
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         return  user;

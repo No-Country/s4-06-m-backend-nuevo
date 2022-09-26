@@ -12,4 +12,5 @@ public interface AwsService {
     List<String> getObjectsFromS3();
 
     InputStream downloadFile(String key);
+    public String deleteFileFromS3Bucket(String fileUrl);
 }

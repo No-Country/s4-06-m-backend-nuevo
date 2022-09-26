@@ -8,4 +8,7 @@ import java.util.List;
 public interface ImageService {
     List<Image> imagesPost(List<MultipartFile> postImagep);
     Image imageUser(MultipartFile image);
+    public void delete(Long id);
+    public Image update(Long id, Image img);
+
 }

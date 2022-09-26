@@ -70,9 +70,17 @@ public class AwsServiceImpl implements AwsService {
         return objects.stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
     }
 
+    //descargar los archivos de aws
     @Override
     public InputStream downloadFile(String key) {
         S3Object object = amazonAwsConfig.getObject(bucketName, key);
         return object.getObjectContent();
     }
+    @Override
+    public String deleteFileFromS3Bucket(String fileUrl) {
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+        amazonAwsConfig.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        return "Successfully deleted";
+    }
+
 }

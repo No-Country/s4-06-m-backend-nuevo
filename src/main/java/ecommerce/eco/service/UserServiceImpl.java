@@ -68,13 +68,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse update(UserUpdateRequest request, MultipartFile image) {
-       if(userRepository.findByEmail(request.getEmail()) != null){
+        Image img;
+        User user =getInfoUser();
+        if(!user.getEmail().equals(request.getEmail())&&userRepository.findByEmail(request.getEmail()) != null){
             throw new UserAlreadyExistException("Email is already in use.");
         }
-        User user =getInfoUser();
+        if(user.getImage()== null){
+             img=imageService.imageUser(image);
+             user.setImage(img);
+        }else {
+           img= imageService.update(user.getImage().getId(),imageService.imageUser(image));
+           user.setImage(img);
+            }
         //convetimos archivo multiportFle en image
-        Image i=imageService.imageUser(image);
-        User userSaved=userRepository.save(userMapper.updateToMaper(user, request, i));
+
+        User userSaved=userRepository.save(userMapper.updateToMaper(user, request));
         return userMapper.dtoToEntityUser(userSaved);
     }
 
