@@ -3,6 +3,8 @@ package ecommerce.eco.service.abstraction;
 import ecommerce.eco.model.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface ImageService {
@@ -10,5 +12,6 @@ public interface ImageService {
     Image imageUser(MultipartFile image);
     public void delete(Long id);
     public Image update(Long id, Image img);
+    public MultipartFile userDefault() throws IOException;
 
 }

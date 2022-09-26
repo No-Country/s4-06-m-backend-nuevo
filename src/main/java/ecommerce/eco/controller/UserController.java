@@ -5,6 +5,7 @@ import ecommerce.eco.model.response.UserResponse;
 import ecommerce.eco.service.abstraction.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +46,8 @@ public class UserController {
     @PutMapping("/update")
     @ApiOperation(value = "Find by id update user ", notes = "Returns user updated" )
     public ResponseEntity<UserResponse> update(
-            @RequestPart(value="image",required=false) MultipartFile image,
-            @RequestPart (value="user", required=true) UserUpdateRequest request
+              @RequestPart ( value="image",required=false) MultipartFile image,
+              @RequestPart(value="user", required=true) UserUpdateRequest request
     ){
         UserResponse response =userService.update(request,image);
         return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -28,7 +29,7 @@ public class AuthController {
     /*@ApiOperation(value = "Registration method", notes = "Returns a registered user" )*/
     @ApiOperation(value = "User register the system", notes = "Returns a register user" )
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequest request){
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequest request) throws IOException {
         AuthResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

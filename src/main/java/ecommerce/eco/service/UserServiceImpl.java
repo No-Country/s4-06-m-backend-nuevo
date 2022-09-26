@@ -73,16 +73,10 @@ public class UserServiceImpl implements UserService {
         if(!user.getEmail().equals(request.getEmail())&&userRepository.findByEmail(request.getEmail()) != null){
             throw new UserAlreadyExistException("Email is already in use.");
         }
-        if(user.getImage()== null){
-             img=imageService.imageUser(image);
-             user.setImage(img);
-        }else {
            img= imageService.update(user.getImage().getId(),imageService.imageUser(image));
-           user.setImage(img);
-            }
         //convetimos archivo multiportFle en image
 
-        User userSaved=userRepository.save(userMapper.updateToMaper(user, request));
+        User userSaved=userRepository.save(userMapper.updateToMaper(user, request, img));
         return userMapper.dtoToEntityUser(userSaved);
     }
 

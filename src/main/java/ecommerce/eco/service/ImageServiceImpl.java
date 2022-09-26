@@ -1,7 +1,6 @@
 package ecommerce.eco.service;
 
 import ecommerce.eco.model.entity.Image;
-import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.mapper.ImageMapper;
 import ecommerce.eco.repository.ImageRepository;
 import ecommerce.eco.service.abstraction.AwsService;
@@ -9,10 +8,14 @@ import ecommerce.eco.service.abstraction.ImageService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,13 @@ public class ImageServiceImpl implements ImageService {
         Image img = findById(id);
         awsService.deleteFileFromS3Bucket(img.getImageUrl());
         return imageMapper.updateImageMapper(img, newImage);
+    }
+
+    @Override
+    public MultipartFile userDefault() throws IOException {
+        String sCarpAct = System.getProperty("user.dir");
+        InputStream inputStream = new FileInputStream(sCarpAct + "/src/main/resources/static/images/user.webp");
+       return new MockMultipartFile("user.webp", "user.webp", "webp", inputStream);
     }
 
 

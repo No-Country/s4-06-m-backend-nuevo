@@ -17,6 +17,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -35,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
     @Override
-    public AuthResponse register(UserRequest request) {
+    public AuthResponse register(UserRequest request) throws IOException {
         if(userRepository.findByEmail(request.getEmail()) != null){
             throw new UserAlreadyExistException("Email is already in use.");
         }
