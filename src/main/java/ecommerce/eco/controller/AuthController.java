@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
@@ -25,14 +26,14 @@ public class AuthController {
     private final AuthService authService;
     /*@ApiOperation(value = "Registration method", notes = "Returns a registered user" )*/
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequest request){
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid UserRequest request){
         AuthResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
    /* @ApiOperation(value = "User login to the system", notes = "Returns a login user" )*/
     @PostMapping("/login")
-    private ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request){
+    private ResponseEntity<AuthResponse> login( @RequestBody @Valid AuthRequest request){
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }

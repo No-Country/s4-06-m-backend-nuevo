@@ -4,7 +4,7 @@ import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.UserRequest;
 import ecommerce.eco.model.response.AuthResponse;
 import ecommerce.eco.service.abstraction.RoleService;
-import ecommerce.eco.util.RolesEnum;
+import ecommerce.eco.model.enums.RolesEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
