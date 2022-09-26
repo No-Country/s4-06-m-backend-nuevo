@@ -1,5 +1,6 @@
 package ecommerce.eco.service;
 
+import ecommerce.eco.exception.UserAlreadyExistException;
 import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.mapper.UserMapper;
@@ -67,6 +68,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse update(UserUpdateRequest request, MultipartFile image) {
+       if(userRepository.findByEmail(request.getEmail()) != null){
+            throw new UserAlreadyExistException("Email is already in use.");
+        }
         User user =getInfoUser();
         //convetimos archivo multiportFle en image
         Image i=imageService.imageUser(image);

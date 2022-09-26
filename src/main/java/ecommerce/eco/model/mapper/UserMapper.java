@@ -37,18 +37,16 @@ public class UserMapper {
               .build();
     }
     public UserResponse dtoToEntityUser(User user){
-        ImageResponse i=new ImageResponse();
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setFullName(user.getFullName());
         if (user.getImage()==null){
-            user.setImage(null);
-        }else {
-           i=imageMapper.imageToDto(user.getImage());
+            response.setImage(null);
+        } else {
+            response.setImage(imageMapper.imageToDto(user.getImage()));
         }
-        return UserResponse.builder()
-                .id(user.getId())
-                .fullName(user.getFullName())
-                .email(user.getEmail())
-                .image(i)
-                .build();
+        return response;
     }
     public  User updateToMaper(User user, UserUpdateRequest request, Image i){
         user.setImage(i);
