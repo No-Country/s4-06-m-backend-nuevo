@@ -1,11 +1,9 @@
 package ecommerce.eco.model.mapper;
 
-import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.UserRequest;
 import ecommerce.eco.model.request.UserUpdateRequest;
 import ecommerce.eco.model.response.AuthResponse;
-import ecommerce.eco.model.response.ImageResponse;
 import ecommerce.eco.model.response.UserResponse;
 import ecommerce.eco.service.abstraction.RoleService;
 import ecommerce.eco.util.RolesEnum;
