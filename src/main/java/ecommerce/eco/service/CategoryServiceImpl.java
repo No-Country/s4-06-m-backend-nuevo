@@ -35,12 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private boolean contains(String description) {
         List<Category> categories = categoryRepository.findAll();
-        for (Category c : categories) {
-            if (c.getDescription().equalsIgnoreCase(description)) {
-                return true;
-            }
-        }
-        return false;
+        return categories.stream().anyMatch(c->c.getDescription().equalsIgnoreCase(description));
     }
 
     @Override
