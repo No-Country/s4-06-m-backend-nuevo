@@ -35,7 +35,8 @@ public class Product {
     private String brand; // Marca
     private SizeEnum size;
     private ColorEnum color;
-    private SexEnum sex;
+    //private SexEnum sex;
+    private String typeOfGarment;// tipo de prenda
     private boolean offer; // producto en oferta
     private boolean softDeleted = Boolean.FALSE;
 

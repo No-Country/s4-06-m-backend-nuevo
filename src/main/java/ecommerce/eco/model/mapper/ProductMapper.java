@@ -12,7 +12,6 @@ public class ProductMapper {
                 .brand(product.getBrand())
                 .color(product.getColor())
                 .price(product.getPrice())
-                .sex(product.getSex())
                 .score(product.getScore())
                 .size(product.getSize())
                 .offer(product.isOffer())
