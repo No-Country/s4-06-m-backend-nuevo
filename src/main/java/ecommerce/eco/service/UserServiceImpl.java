@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         User user = getUser(id);
         user.setSoftDeleted(true);
@@ -67,10 +69,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse update(UserUpdateRequest request, MultipartFile image) {
         Image img;
         User user =getInfoUser();
-        if(!user.getEmail().equals(request.getEmail())&&userRepository.findByEmail(request.getEmail()) != null){
+        if(!user.getEmail().equalsIgnoreCase(request.getEmail())&&userRepository.findByEmail(request.getEmail()) != null){
             throw new UserAlreadyExistException("Email is already in use.");
         }
            img= imageService.update(user.getImage().getId(),imageService.imageUser(image));
