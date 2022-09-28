@@ -24,20 +24,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "description cannot be empty")
-    private String description;
+    private String shortDetails;
+    private String details;
+    private String title;
+    @NotEmpty(message = "Brand cannot be empty")
+    private String brand; // Marca
+    private String view;
+    private boolean stock;
 
-    private int stock;
-    private int score;
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
-    @NotEmpty(message = "Brand cannot be empty")
-    private String brand; // Marca
+
+    @Enumerated(value = EnumType.STRING)
     private SizeEnum size;
+    @Enumerated(value = EnumType.STRING)
     private ColorEnum color;
-    //private SexEnum sex;
-    private String typeOfGarment;// tipo de prenda
-    private boolean offer; // producto en oferta
+
     private boolean softDeleted = Boolean.FALSE;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,6 +49,10 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "image_id")
+    private List<Image> carrousel = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
