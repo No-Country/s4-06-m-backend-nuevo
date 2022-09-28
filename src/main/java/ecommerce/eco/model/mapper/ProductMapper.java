@@ -12,10 +12,10 @@ public class ProductMapper {
                 .brand(product.getBrand())
                 .color(product.getColor())
                 .price(product.getPrice())
-                .score(product.getScore())
+                .details(product.getDetails())
+                .title(product.getTitle())
+                .shortDetails(product.getShortDetails())
                 .size(product.getSize())
-                .offer(product.isOffer())
-                .description(product.getDescription())
                 .build();
     }
 }
