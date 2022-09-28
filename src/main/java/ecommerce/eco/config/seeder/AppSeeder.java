@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class AppSeeder {
 
-    private final String[] categoryName = {"HOMBRE", "MUJER", "NIÑOS", "OFERTAS"};
+    private final String[] categoryName = {"HOMBRE", "MUJER", "NIÑOS", "OFERTAS","NUEVAS OFERTAS","OFERTAS RELAMPAGO"};
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepository;
 

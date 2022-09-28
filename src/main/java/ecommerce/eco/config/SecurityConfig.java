@@ -70,6 +70,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE,"/user/{id}").permitAll()
                 .antMatchers(HttpMethod.PUT,"/user/update").permitAll()
 
+                // Review
+                .antMatchers(HttpMethod.POST,"/review/add").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
