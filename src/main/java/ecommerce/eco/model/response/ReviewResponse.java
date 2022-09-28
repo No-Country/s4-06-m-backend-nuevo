@@ -1,12 +1,8 @@
-package ecommerce.eco.model.entity;
+package ecommerce.eco.model.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.ZonedDateTime;
 
 @Builder
@@ -14,16 +10,11 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-public class Review {
+public class ReviewResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private int score; // estrellas o puntaje
     private String username; // nombre del usuario
     private String comment; // comentario
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private ZonedDateTime time;
-
 }
