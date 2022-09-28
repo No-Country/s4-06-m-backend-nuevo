@@ -51,7 +51,7 @@ public class Product {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "product_id")
     private List<Image> carrousel = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
