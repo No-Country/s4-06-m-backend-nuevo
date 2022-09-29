@@ -9,4 +9,7 @@ import java.util.List;
 
 public interface ProductService {
     ProductResponse add(List<MultipartFile> postImage, ProductRequest request);
+    ProductResponse getById(Long id);
+    void delete(Long id);
+    List<ProductResponse> getAll();
 }

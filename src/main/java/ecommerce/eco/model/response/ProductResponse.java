@@ -8,6 +8,7 @@ import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -25,4 +26,5 @@ public class ProductResponse {
     private String shortDetails;
     private String details;
     private String title;
+    private List<ImageResponse> imgList;
 }

@@ -50,7 +50,7 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private List<Image> carrousel = new ArrayList<>();
 
