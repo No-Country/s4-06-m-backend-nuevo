@@ -72,6 +72,7 @@ public class SecurityConfig {
 
                 // Review
                 .antMatchers(HttpMethod.POST,"/review/add").permitAll()
+                .antMatchers(HttpMethod.PUT,"/review/{id}").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

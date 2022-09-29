@@ -27,4 +27,13 @@ public class ReviewMapper {
                 .username(review.getUsername())
                 .build();
     }
+
+
+    public void reviewUpdate(Review review, ReviewRequest request) {
+        review.setComment(request.getComment());
+        review.setScore(request.getScore());
+        review.setUsername(request.getUsername());
+        review.setTime(ZonedDateTime.now());
+
+    }
 }

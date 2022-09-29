@@ -25,5 +25,6 @@ public class Review {
     private String comment; // comentario
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private ZonedDateTime time;
+    private boolean softDeleted = Boolean.FALSE;
 
 }

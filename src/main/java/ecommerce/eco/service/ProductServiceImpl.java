@@ -67,6 +67,11 @@ public class ProductServiceImpl implements ProductService {
         return getProduct(idProduct);
     }
 
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
     private Product getProduct(Long idProduct) {
         Optional<Product> product = productRepository.findById(idProduct);
         if (product.isEmpty() || product.get().isSoftDeleted()) {

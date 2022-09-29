@@ -12,4 +12,6 @@ public interface ProductService {
     ProductResponse add(List<MultipartFile> postImage, ProductRequest request);
 
     Product findById(Long idProduct);
+
+    void save(Product product);
 }
