@@ -69,7 +69,17 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,"/user/all").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/user/{id}").permitAll()
                 .antMatchers(HttpMethod.PUT,"/user/update").permitAll()
-
+                /*Product*/
+                .antMatchers(HttpMethod.POST,"/product/add").permitAll()
+                .antMatchers(HttpMethod.GET,"/product/{id}").permitAll()
+                .antMatchers(HttpMethod.GET,"/product/all").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/product/{id}").permitAll()
+                .antMatchers(HttpMethod.PUT,"/product/update").permitAll()
+                .antMatchers(HttpMethod.GET,"/product/filter/details").permitAll()
+                /*Color*/
+                .antMatchers(HttpMethod.GET,"/color/all").permitAll()
+                /*Size*/
+                .antMatchers(HttpMethod.GET,"/size/all").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

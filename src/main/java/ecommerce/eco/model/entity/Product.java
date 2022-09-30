@@ -36,10 +36,12 @@ public class Product {
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
 
-    @Enumerated(value = EnumType.STRING)
-    private SizeEnum size;
-    @Enumerated(value = EnumType.STRING)
-    private ColorEnum color;
+    @OneToOne()
+    @JoinColumn(name = "id_size")
+    private Size size;
+    @OneToOne()
+    @JoinColumn(name = "id_color")
+    private Color color;
 
     private boolean softDeleted = Boolean.FALSE;
 
@@ -50,7 +52,7 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private List<Image> carrousel = new ArrayList<>();
 

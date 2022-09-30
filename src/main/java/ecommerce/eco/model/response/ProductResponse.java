@@ -8,6 +8,7 @@ import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -20,9 +21,10 @@ public class ProductResponse {
     private boolean stock;
     private double price;
     private String brand; // Marca
-    private SizeEnum size;
-    private ColorEnum color;
+    private String size;
+    private String color;
     private String shortDetails;
     private String details;
     private String title;
+    private List<ImageResponse> imgList;
 }
