@@ -12,4 +12,5 @@ public interface ProductService {
     ProductResponse getById(Long id);
     void delete(Long id);
     List<ProductResponse> getAll();
+    List<ProductResponse> findByShortDetailsOrDetailsOrTitle(String shortDetails, String details, String title);
 }

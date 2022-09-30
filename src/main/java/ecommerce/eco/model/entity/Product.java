@@ -36,10 +36,12 @@ public class Product {
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
 
-    @Enumerated(value = EnumType.STRING)
-    private SizeEnum size;
-    @Enumerated(value = EnumType.STRING)
-    private ColorEnum color;
+    @OneToOne()
+    @JoinColumn(name = "id_size")
+    private Size size;
+    @OneToOne()
+    @JoinColumn(name = "id_color")
+    private Color color;
 
     private boolean softDeleted = Boolean.FALSE;
 
