@@ -78,6 +78,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,"/product/filter/details").permitAll()
                 /*Color*/
                 .antMatchers(HttpMethod.GET,"/color/all").permitAll()
+                /*Size*/
+                .antMatchers(HttpMethod.GET,"/size/all").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
