@@ -2,7 +2,6 @@ package ecommerce.eco.controller;
 
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
-import ecommerce.eco.model.response.UserResponse;
 import ecommerce.eco.service.abstraction.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +23,6 @@ public class ProductController {
 
     @ApiOperation(value = "Registration of a product", notes = "Returns product created" )
     @PostMapping("/add")
-
     public ResponseEntity<ProductResponse> upload(
             @RequestPart(value="postimages",required=false) List<MultipartFile> postImage,
             @RequestPart (value="product", required=true) ProductRequest request){
@@ -51,4 +49,20 @@ public class ProductController {
         List<ProductResponse> response = productService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+    @ApiOperation(value = "Filter method", notes = "Returns a list product and properties and description" )
+    @GetMapping("/filter/details")
+    public List<ProductResponse> getDetailsByFilters(
+            @RequestParam(required = false) String title,
+            /*@RequestParam(required = false) Set<Long> genre,*/
+            @RequestParam(required = false, defaultValue = "ASC") String order ){
+
+        return productService.findByDetailsOrTitle(title, order);
+    }
+   /* public ResponseEntity<List<ProductResponse>> findByLocationOrProvince(
+            *//*@RequestParam(required = false) String shortDetails,*//*
+            @RequestParam(required = false) String details,
+            @RequestParam(required = false) String title   ){
+        List<ProductResponse> productResponses = productService.findByDetailsOrTitle(details,title);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponses);
+    }*/
 }

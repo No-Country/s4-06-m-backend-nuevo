@@ -23,6 +23,7 @@ public class ProductMapper {
                 .title(product.getTitle())
                 .shortDetails(product.getShortDetails())
                 .size(product.getSize().getName())
+                .stock(product.isStock())
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
@@ -38,7 +39,7 @@ public class ProductMapper {
                 .category(request.getCategory())
                 .price(request.getPrice())
                 .reviews(null)
-                .stock(true)
+                .stock(request.isStock())
                 .view(request.getView())
                 .build();
     }

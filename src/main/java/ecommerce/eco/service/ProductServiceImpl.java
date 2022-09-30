@@ -2,9 +2,11 @@ package ecommerce.eco.service;
 
 
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
+import ecommerce.eco.config.filters.ProductSpecifications;
 import ecommerce.eco.model.entity.*;
 import ecommerce.eco.model.enums.ColorEnum;
 import ecommerce.eco.model.mapper.ProductMapper;
+import ecommerce.eco.model.request.ProductFilterRequest;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
 import ecommerce.eco.repository.ColorRepository;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +41,7 @@ public class ProductServiceImpl implements ProductService {
     private final ImageService imageService;
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
+    private final ProductSpecifications productSpecifications;
 
     @Override
     @Transactional
@@ -103,12 +107,17 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
     @Override
-    public List<ProductResponse> findByShortDetailsOrDetailsOrTitle(String shortDetails, String details, String title) {
+    public List<ProductResponse> findByDetailsOrTitle( String title, String order) {
+            List<Product> productList = productRepository.findAll( productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
+            return productList.stream()
+                    .filter(p -> !p.isSoftDeleted())
+                    .map(productMapper::entityToDto)
+                    .collect(Collectors.toList());
 
-        return productRepository.findByShortDetailsOrDetailsOrTitle(shortDetails,details,title).stream()
+        /*return productRepository.findByDetailsOrTitle(details,title).stream()
                 .filter(p -> !p.isSoftDeleted())
                 .map(productMapper::entityToDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 
 

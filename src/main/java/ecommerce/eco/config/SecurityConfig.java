@@ -75,7 +75,9 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,"/product/all").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/product/{id}").permitAll()
                 .antMatchers(HttpMethod.PUT,"/product/update").permitAll()
-
+                .antMatchers(HttpMethod.GET,"/product/filter/details").permitAll()
+                /*Color*/
+                .antMatchers(HttpMethod.GET,"/color/all").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
