@@ -1,25 +1,26 @@
 package ecommerce.eco.model.response;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ecommerce.eco.model.enums.ColorEnum;
 import ecommerce.eco.model.enums.SizeEnum;
 import lombok.*;
-
-
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductResponse {
+public class ProductDiscountResponse {
 
     private Long id;
     private boolean stock;
-    private double price;
+    private double priceWithoutDiscount; // sin descuento
+    private double priceWithDiscount;// con descuento
+    private int discount; // descuento
     private String brand; // Marca
-    private SizeEnum size;
-    private ColorEnum color;
     private String shortDetails;
     private String details;
     private String title;
+
 }

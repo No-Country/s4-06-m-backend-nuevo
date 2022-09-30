@@ -1,6 +1,7 @@
 package ecommerce.eco.controller;
 
 import ecommerce.eco.model.request.CategoryRequest;
+import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.service.abstraction.CategoryService;
 
@@ -42,5 +43,13 @@ public class CategoryController {
         CategoryResponse response = categoryService.findByDescription(description);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    //Endpoint Home devuelve los productos con descuento
+    @GetMapping("/productWith/{newOffersId}")
+    public ResponseEntity<CategoryDiscountResponse> getCategoryWithDiscount(@PathVariable Long newOffersId){
+        CategoryDiscountResponse response = categoryService.getCategoryWithDiscount(newOffersId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 
 }

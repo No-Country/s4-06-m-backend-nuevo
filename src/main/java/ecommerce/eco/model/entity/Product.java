@@ -31,6 +31,7 @@ public class Product {
     private String brand; // Marca
     private String view;
     private boolean stock;
+    private int discount; // descuento
 
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
@@ -57,5 +58,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
     // ********************************************* //
+
+    public double discount(){
+        return (price * discount) / 100;
+    }
 
 }
