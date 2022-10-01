@@ -38,16 +38,20 @@ public class Product {
     private double price;
 
     @OneToOne()
-    @JoinColumn(name = "id_size")
+    @JoinColumn(name = "id_size",nullable = true)
     private Size size;
     @OneToOne()
-    @JoinColumn(name = "id_color")
+    @JoinColumn(name = "id_color",nullable = true)
     private Color color;
 
     private boolean softDeleted = Boolean.FALSE;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private Category category;
+
+    @Column(name = "category_id", nullable = false)
+    private Long categoryId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")

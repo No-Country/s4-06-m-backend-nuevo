@@ -32,6 +32,8 @@ public class ProductRequest {
     private double price;
     private String size;
     private String color;
-    private Category category;
+    @NotNull(message = "id cannot by null")
+    private Long categoryId;
+
 
 }

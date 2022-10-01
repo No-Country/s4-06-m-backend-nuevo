@@ -1,6 +1,7 @@
 package ecommerce.eco.service;
 
 
+import ecommerce.eco.model.entity.Category;
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.entity.User;
 
@@ -14,6 +15,7 @@ import ecommerce.eco.model.response.ProductResponse;
 import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.repository.ProductRepository;
 import ecommerce.eco.repository.SizeRepository;
+import ecommerce.eco.service.abstraction.CategoryService;
 import ecommerce.eco.service.abstraction.ImageService;
 import ecommerce.eco.service.abstraction.ProductService;
 import ecommerce.eco.service.abstraction.UserService;
@@ -44,6 +46,8 @@ public class ProductServiceImpl implements ProductService {
     private final SizeRepository sizeRepository;
     private final ProductSpecifications productSpecifications;
 
+    private final CategoryService categoryService;
+
     @Override
     @Transactional
     public ProductResponse add(List<MultipartFile> postImage, ProductRequest request) {
@@ -52,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
 
             Product product = productMapper.dtoToProduct(request, user);
+
             /*Color*/
             if (colorRepository.findByName(request.getColor().toUpperCase()) != null) {
                 product.setColor(colorRepository.findByName(request.getColor()));
@@ -67,7 +72,9 @@ public class ProductServiceImpl implements ProductService {
             }
             /*imagenes*/
             product.setCarrousel(imageService.imagesPost(postImage));
-
+            /*agrego category*/
+            Category category = categoryService.findById(request.getCategoryId());
+            product.setCategory(category);
             /* product.getCarrousel().forEach(p->productRepository.save(product));*/
             for (int i = 0; i < product.getCarrousel().size() - 1; i++) {
                 productRepository.save(product);
@@ -116,10 +123,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getAll() {
-        return productRepository.findAll().stream()
-                .filter(p -> !p.isSoftDeleted())
-                .map(productMapper::entityToDto)
-                .collect(Collectors.toList());
+        return productRepository.findAll().stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
     }
 
 
@@ -134,10 +138,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> findByDetailsOrTitle(String title, String order) {
         List<Product> productList = productRepository.findAll(productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
-        return productList.stream()
-                .filter(p -> !p.isSoftDeleted())
-                .map(productMapper::entityToDto)
-                .collect(Collectors.toList());
+        return productList.stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
 
         /*return productRepository.findByDetailsOrTitle(details,title).stream()
                 .filter(p -> !p.isSoftDeleted())

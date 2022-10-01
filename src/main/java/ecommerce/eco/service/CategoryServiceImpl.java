@@ -67,6 +67,10 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.dtoToEntityWithDiscount(category);
     }
 
+    @Override
+    public Category findById(Long categoryId) {
+        return getCategory(categoryId);
+    }
 
 
     private Category getCategory(Long id) {

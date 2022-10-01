@@ -37,7 +37,7 @@ public class ProductMapper {
                 .title(request.getTitle())
                 .brand(request.getBrand())
                 .cart(null)
-                .category(request.getCategory())
+                .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)
                 .stock(request.isStock())
