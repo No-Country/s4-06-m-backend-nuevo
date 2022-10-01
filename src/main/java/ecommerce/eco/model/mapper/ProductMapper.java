@@ -1,6 +1,7 @@
 package ecommerce.eco.model.mapper;
 
 import ecommerce.eco.model.entity.Product;
+import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
@@ -36,11 +37,26 @@ public class ProductMapper {
                 .title(request.getTitle())
                 .brand(request.getBrand())
                 .cart(null)
-                .category(request.getCategory())
+                .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)
                 .stock(request.isStock())
                 .view(request.getView())
+                .build();
+    }
+
+    public ProductDiscountResponse entityToDtoWithDiscount(Product product) {
+        double discount = product.discount();
+        return ProductDiscountResponse.builder()
+                .id(product.getId())
+                .brand(product.getBrand())
+                .details(product.getDetails())
+                .title(product.getTitle())
+                .shortDetails(product.getShortDetails())
+                .priceWithDiscount(discount)
+                .priceWithoutDiscount(product.getPrice())
+                .discount(product.getDiscount())
+                .stock(product.isStock())
                 .build();
     }
 }

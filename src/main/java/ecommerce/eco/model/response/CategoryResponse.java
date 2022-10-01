@@ -15,8 +15,6 @@ public class CategoryResponse {
 
     private Long id;
     private String description;
-
-    //TODO falta devolver los productos
     private List<ProductResponse> products;
 
 }

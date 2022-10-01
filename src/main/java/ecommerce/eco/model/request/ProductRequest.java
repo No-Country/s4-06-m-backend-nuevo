@@ -1,13 +1,13 @@
 package ecommerce.eco.model.request;
 
+
 import ecommerce.eco.model.entity.Category;
-import ecommerce.eco.model.enums.ColorEnum;
-import ecommerce.eco.model.enums.SizeEnum;
 import lombok.*;
-import javax.persistence.*;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 
 
 @Builder
@@ -32,6 +32,8 @@ public class ProductRequest {
     private double price;
     private String size;
     private String color;
-    private Category category;
+    @NotNull(message = "id cannot by null")
+    private Long categoryId;
+
 
 }

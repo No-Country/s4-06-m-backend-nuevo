@@ -1,14 +1,11 @@
 package ecommerce.eco.model.response;
 
-import ecommerce.eco.model.enums.ColorEnum;
-import ecommerce.eco.model.enums.SexEnum;
-import ecommerce.eco.model.enums.SizeEnum;
 import lombok.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+
 import java.util.List;
+
 
 @Builder
 @AllArgsConstructor

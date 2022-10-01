@@ -3,6 +3,7 @@ package ecommerce.eco.service;
 import ecommerce.eco.model.entity.Category;
 import ecommerce.eco.model.mapper.CategoryMapper;
 import ecommerce.eco.model.request.CategoryRequest;
+import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.repository.CategoryRepository;
 import ecommerce.eco.service.abstraction.CategoryService;
@@ -56,6 +57,19 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse findByDescription(String description) {
         Category category = categoryRepository.findByDescription(description);
         return categoryMapper.dtoToEntity(category);
+    }
+
+    @Override
+    public CategoryDiscountResponse getCategoryWithDiscount(Long newOffersId) {
+        Category category = getCategory(newOffersId);
+        if(category.getId() != 5)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Categoria no encontrada prueba con id = 5");
+        return categoryMapper.dtoToEntityWithDiscount(category);
+    }
+
+    @Override
+    public Category findById(Long categoryId) {
+        return getCategory(categoryId);
     }
 
 

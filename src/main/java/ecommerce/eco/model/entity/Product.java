@@ -31,22 +31,27 @@ public class Product {
     private String brand; // Marca
     private String view;
     private boolean stock;
+    private int discount; // descuento
 
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
 
     @OneToOne()
-    @JoinColumn(name = "id_size")
+    @JoinColumn(name = "id_size",nullable = true)
     private Size size;
     @OneToOne()
-    @JoinColumn(name = "id_color")
+    @JoinColumn(name = "id_color",nullable = true)
     private Color color;
 
     private boolean softDeleted = Boolean.FALSE;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private Category category;
+
+    @Column(name = "category_id", nullable = false)
+    private Long categoryId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
@@ -59,5 +64,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
     // ********************************************* //
+
+    public double discount(){
+        return (price * discount) / 100;
+    }
 
 }

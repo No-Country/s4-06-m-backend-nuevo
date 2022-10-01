@@ -1,10 +1,13 @@
 package ecommerce.eco.service;
 
 
-import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
+import ecommerce.eco.model.entity.Category;
+import ecommerce.eco.model.entity.Product;
+import ecommerce.eco.model.entity.User;
+
+
 import ecommerce.eco.config.filters.ProductSpecifications;
-import ecommerce.eco.model.entity.*;
-import ecommerce.eco.model.enums.ColorEnum;
+
 import ecommerce.eco.model.mapper.ProductMapper;
 import ecommerce.eco.model.request.ProductFilterRequest;
 import ecommerce.eco.model.request.ProductRequest;
@@ -12,24 +15,24 @@ import ecommerce.eco.model.response.ProductResponse;
 import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.repository.ProductRepository;
 import ecommerce.eco.repository.SizeRepository;
+import ecommerce.eco.service.abstraction.CategoryService;
 import ecommerce.eco.service.abstraction.ImageService;
 import ecommerce.eco.service.abstraction.ProductService;
 import ecommerce.eco.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +46,8 @@ public class ProductServiceImpl implements ProductService {
     private final SizeRepository sizeRepository;
     private final ProductSpecifications productSpecifications;
 
+    private final CategoryService categoryService;
+
     @Override
     @Transactional
     public ProductResponse add(List<MultipartFile> postImage, ProductRequest request) {
@@ -51,18 +56,25 @@ public class ProductServiceImpl implements ProductService {
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
 
             Product product = productMapper.dtoToProduct(request, user);
+
             /*Color*/
-            if(colorRepository.findByName(request.getColor().toUpperCase())!=null){
+            if (colorRepository.findByName(request.getColor().toUpperCase()) != null) {
                 product.setColor(colorRepository.findByName(request.getColor()));
-            }else {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");}
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+            }
             /*Talle*/
-            if(sizeRepository.findByName(request.getSize().toUpperCase())!=null){
+            if (sizeRepository.findByName(request.getSize().toUpperCase()) != null) {
                 product.setSize(sizeRepository.findByName(request.getSize()));
                 LOGGER.error("El talle es valido" + product.getSize().getName());
-            }else {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");}
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
+            }
             /*imagenes*/
             product.setCarrousel(imageService.imagesPost(postImage));
-
+            /*agrego category*/
+            Category category = categoryService.findById(request.getCategoryId());
+            product.setCategory(category);
             /* product.getCarrousel().forEach(p->productRepository.save(product));*/
             for (int i = 0; i < product.getCarrousel().size() - 1; i++) {
                 productRepository.save(product);
@@ -73,6 +85,25 @@ public class ProductServiceImpl implements ProductService {
         }
 
     }
+
+    @Override
+    public Product findById(Long idProduct) {
+        return getProductForCategory(idProduct);
+    }
+
+    private Product getProductForCategory(Long idProduct) {
+        Optional<Product> product = productRepository.findById(idProduct);
+        if (product.isEmpty() || product.get().isSoftDeleted()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found or has been deleted");
+        }
+        return product.get();
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
 
     @Override
     public ProductResponse getById(Long id) {
@@ -92,10 +123,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getAll() {
-        return productRepository.findAll().stream()
-                .filter(p -> !p.isSoftDeleted())
-                .map(productMapper::entityToDto)
-                .collect(Collectors.toList());
+        return productRepository.findAll().stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
     }
 
 
@@ -106,13 +134,11 @@ public class ProductServiceImpl implements ProductService {
         }
         return product;
     }
+
     @Override
-    public List<ProductResponse> findByDetailsOrTitle( String title, String order) {
-            List<Product> productList = productRepository.findAll( productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
-            return productList.stream()
-                    .filter(p -> !p.isSoftDeleted())
-                    .map(productMapper::entityToDto)
-                    .collect(Collectors.toList());
+    public List<ProductResponse> findByDetailsOrTitle(String title, String order) {
+        List<Product> productList = productRepository.findAll(productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
+        return productList.stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
 
         /*return productRepository.findByDetailsOrTitle(details,title).stream()
                 .filter(p -> !p.isSoftDeleted())
@@ -121,5 +147,5 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
 }
+
