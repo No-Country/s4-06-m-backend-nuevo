@@ -1,9 +1,10 @@
 package ecommerce.eco.model.response;
 
-import ecommerce.eco.model.enums.ColorEnum;
-import ecommerce.eco.model.enums.SizeEnum;
 import lombok.*;
 
+
+
+import java.util.List;
 
 
 @Builder
@@ -17,9 +18,10 @@ public class ProductResponse {
     private boolean stock;
     private double price;
     private String brand; // Marca
-    private SizeEnum size;
-    private ColorEnum color;
+    private String size;
+    private String color;
     private String shortDetails;
     private String details;
     private String title;
+    private List<ImageResponse> imgList;
 }

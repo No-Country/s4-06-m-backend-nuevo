@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
@@ -54,26 +55,35 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(publicEndpoint).permitAll()
                 /*Auth*/
-                .antMatchers(HttpMethod.POST,"/auth/register").permitAll()
-                .antMatchers(HttpMethod.POST,"/auth/login").permitAll()
-                .antMatchers(HttpMethod.GET,"/auth/logout").permitAll()
-
+                .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/auth/logout").permitAll()
                 //Category
-                .antMatchers(HttpMethod.POST,"/category/create").permitAll()
-                .antMatchers(HttpMethod.DELETE,"/category/{id}").permitAll()
-                .antMatchers(HttpMethod.GET,"/category/{id}").permitAll()
-                .antMatchers(HttpMethod.GET,"/category/description").permitAll()
-                .antMatchers(HttpMethod.GET,"/category/productWith/{newOffersId}").permitAll()
-
+                .antMatchers(HttpMethod.POST, "/category/create").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/category/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/category/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/category/description").permitAll()
+                .antMatchers(HttpMethod.GET, "/category/productWith/{newOffersId}").permitAll()
                 /*User*/
-                .antMatchers(HttpMethod.GET,"/user/{id}").permitAll()
-                .antMatchers(HttpMethod.GET,"/user/all").permitAll()
-                .antMatchers(HttpMethod.DELETE,"/user/{id}").permitAll()
-                .antMatchers(HttpMethod.PUT,"/user/update").permitAll()
-
+                .antMatchers(HttpMethod.GET, "/user/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/all").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/user/{id}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/user/update").permitAll()
                 // Review
-                .antMatchers(HttpMethod.POST,"/review/add").permitAll()
-                .antMatchers(HttpMethod.PUT,"/review/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/review/add").permitAll()
+                .antMatchers(HttpMethod.PUT, "/review/{id}").permitAll()
+                /*Product*/
+                .antMatchers(HttpMethod.POST, "/product/add").permitAll()
+                .antMatchers(HttpMethod.GET, "/product/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/product/all").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/product/{id}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/product/update").permitAll()
+                .antMatchers(HttpMethod.GET, "/product/filter/details").permitAll()
+                /*Color*/
+                .antMatchers(HttpMethod.GET, "/color/all").permitAll()
+                /*Size*/
+                .antMatchers(HttpMethod.GET, "/size/all").permitAll()
+
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -86,6 +96,7 @@ public class SecurityConfig {
         http.headers().frameOptions().disable();
         return http.build();
     }
+
     private static final String[] publicEndpoint = {
             "/swagger-resources/**",
             "/swagger-ui/**", "/v2/api-docs",
@@ -97,6 +108,7 @@ public class SecurityConfig {
             "/**/swagger-ui/**",
             "/swagger-ui"
     };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

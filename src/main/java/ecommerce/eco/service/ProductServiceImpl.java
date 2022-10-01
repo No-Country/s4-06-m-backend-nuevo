@@ -1,13 +1,20 @@
 package ecommerce.eco.service;
 
-import ecommerce.eco.exception.InvalidPostImageException;
-import ecommerce.eco.model.entity.Category;
+
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.entity.User;
+
+
+import ecommerce.eco.config.filters.ProductSpecifications;
+
 import ecommerce.eco.model.mapper.ProductMapper;
+import ecommerce.eco.model.request.ProductFilterRequest;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
+import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.repository.ProductRepository;
+import ecommerce.eco.repository.SizeRepository;
+import ecommerce.eco.service.abstraction.ImageService;
 import ecommerce.eco.service.abstraction.ProductService;
 import ecommerce.eco.service.abstraction.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +25,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
@@ -29,42 +39,57 @@ public class ProductServiceImpl implements ProductService {
     private final UserService userService;
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
+    private final ImageService imageService;
+    private final ColorRepository colorRepository;
+    private final SizeRepository sizeRepository;
+    private final ProductSpecifications productSpecifications;
+
     @Override
     @Transactional
     public ProductResponse add(List<MultipartFile> postImage, ProductRequest request) {
         try {
             User user = userService.getInfoUser();
+            if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
 
-            if (postImage.isEmpty()) {
-                LOGGER.error("La lista imagen esta vacia");
-                }
-            }catch( InvalidPostImageException e) {
-            LOGGER.warn("Error de imagen, imagen requerida");
+            Product product = productMapper.dtoToProduct(request, user);
+            /*Color*/
+            if (colorRepository.findByName(request.getColor().toUpperCase()) != null) {
+                product.setColor(colorRepository.findByName(request.getColor()));
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
             }
-
-           /* if (chechListFile(multipartFiles)){
-
-                p.setPostImages(new ArrayList<>());
-
-            }else {
-                LOGGER.error("La lista no esta vacia");
-                //generacion de List de imagenes
-                p.setPostImages(imageService.imagesPost(multipartFiles));
-                for (int i = 0; i <p.getPostImages().size()-1 ; i++) {
-                    productRepository.save(p);
-                }
+            /*Talle*/
+            if (sizeRepository.findByName(request.getSize().toUpperCase()) != null) {
+                product.setSize(sizeRepository.findByName(request.getSize()));
+                LOGGER.error("El talle es valido" + product.getSize().getName());
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
             }
-            return productMapper.responseToProperty( propertyRepository.save(p));
-        }catch (InvalidPropertyException e){
-            throw new InvalidPropertyException("Error creating a property: "+e.getMessage());
-        }*/
-            return null;
+            /*imagenes*/
+            product.setCarrousel(imageService.imagesPost(postImage));
 
+            /* product.getCarrousel().forEach(p->productRepository.save(product));*/
+            for (int i = 0; i < product.getCarrousel().size() - 1; i++) {
+                productRepository.save(product);
+            }
+            return productMapper.entityToDto(productRepository.save(product));
+        } catch (NullPointerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image product already registered");
         }
+
+    }
 
     @Override
     public Product findById(Long idProduct) {
-        return getProduct(idProduct);
+        return getProductForCategory(idProduct);
+    }
+
+    private Product getProductForCategory(Long idProduct) {
+        Optional<Product> product = productRepository.findById(idProduct);
+        if (product.isEmpty() || product.get().isSoftDeleted()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found or has been deleted");
+        }
+        return product.get();
     }
 
     @Override
@@ -72,12 +97,54 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    private Product getProduct(Long idProduct) {
-        Optional<Product> product = productRepository.findById(idProduct);
-        if (product.isEmpty() || product.get().isSoftDeleted()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found or has been deleted");
+
+    @Override
+    public ProductResponse getById(Long id) {
+        Product product = productRepository.findById(id).orElseThrow();
+        if (product.isSoftDeleted()) {
+            throw new EntityNotFoundException("User not found or deleted");
         }
-        return product.get();
+        return productMapper.entityToDto(product);
     }
+
+    @Override
+    public void delete(Long id) {
+        Product product = getProduct(id);
+        product.setSoftDeleted(true);
+        productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductResponse> getAll() {
+        return productRepository.findAll().stream()
+                .filter(p -> !p.isSoftDeleted())
+                .map(productMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    private Product getProduct(Long id) {
+        Product product = productRepository.findById(id).orElseThrow();
+        if (product.isSoftDeleted()) {
+            throw new EntityNotFoundException("User not found or has been deleted");
+        }
+        return product;
+    }
+
+    @Override
+    public List<ProductResponse> findByDetailsOrTitle(String title, String order) {
+        List<Product> productList = productRepository.findAll(productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
+        return productList.stream()
+                .filter(p -> !p.isSoftDeleted())
+                .map(productMapper::entityToDto)
+                .collect(Collectors.toList());
+
+        /*return productRepository.findByDetailsOrTitle(details,title).stream()
+                .filter(p -> !p.isSoftDeleted())
+                .map(productMapper::entityToDto)
+                .collect(Collectors.toList());*/
+    }
+
+
 }
 

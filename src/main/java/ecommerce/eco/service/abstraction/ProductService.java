@@ -12,6 +12,10 @@ public interface ProductService {
     ProductResponse add(List<MultipartFile> postImage, ProductRequest request);
 
     Product findById(Long idProduct);
-
     void save(Product product);
+    ProductResponse getById(Long id);
+    void delete(Long id);
+    List<ProductResponse> getAll();
+    List<ProductResponse> findByDetailsOrTitle(String details, String title);
+
 }
