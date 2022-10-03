@@ -44,7 +44,7 @@ public class User implements UserDetails {
     private Role role;
 
     @JoinColumn(name="user_img")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne()
     private Image image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

@@ -8,6 +8,7 @@ import ecommerce.eco.model.enums.RolesEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class AppSeeder {
-
+    private static final String PASSWORD = "12345678";
     private final String[] categoryName = {"HOMBRE", "MUJER", "NIÑOS", "OFERTAS","NUEVAS OFERTAS","OFERTAS RELAMPAGO"};
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepository;
@@ -24,6 +25,7 @@ public class AppSeeder {
     private final SizeRepository sizeRepository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
+    private final PasswordEncoder passwordEncoder;
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         // create role
@@ -39,10 +41,6 @@ public class AppSeeder {
         if (sizeList.isEmpty()) {
             createSizes();
         }
-        List<Image> images=imageRepository.findAll();
-        if(images.isEmpty()){
-            createImage();
-        }
         // create Category
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty()){
@@ -54,12 +52,13 @@ public class AppSeeder {
            createUsers();
         }
     }
-    private void createImage(){
-        Image img= Image.builder()
-                .imageUrl("https://group6nocountrygnavarro.s3.amazonaws.com/1664630878400_user.webp")
-                .fileName("admin_img")
-                .build();
-        imageRepository.save(img);
+    private void createImage(User user){
+        Image img= new Image();
+            img.setImageUrl("https://group6nocountrygnavarro.s3.amazonaws.com/1664630878400_user.webp");
+            img.setFileName("admin_img");
+            Image create=imageRepository.save(img);
+       user.setImage(create );
+       userRepository.save(user);
     }
 
     private void createCategories() {
@@ -115,15 +114,18 @@ public class AppSeeder {
         roleRepository.save(role);
     }
     private void createUsers(){
-       User user= User.builder()
-               .role(roleRepository.findById(1L).get())
-               .email("admin@eco-sport.com")
-               .fullName("Eco-Sport")
-               .password("12345678")
-               .softDeleted(Boolean.FALSE)
-               .image(imageRepository.getReferenceById(1L))
-               .build();
-       userRepository.save(user);
+     /*  List<Image>  imgs=imageRepository.findAll();
+       Image img=imageRepository.findById(1L).get();*/
+        User user=new User();
+        user.setEmail("admin@eco-sport.com");
+        user.setFullName("Eco-Sport");
+        user.setPassword(passwordEncoder.encode(PASSWORD));
+        user.setSoftDeleted(Boolean.FALSE);
+        user.setRole(roleRepository.findById(1L).get());
+        user.setImage(null);
+        createImage(user);
+
+
     }
 
 }
