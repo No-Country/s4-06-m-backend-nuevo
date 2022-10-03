@@ -1,13 +1,11 @@
 package ecommerce.eco.model.request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 
@@ -16,8 +14,11 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class UserRequest {
+    @NonNull
+    @NotEmpty(message = "the full name can't be null")
     @NotBlank(message = "First Name Required")
     private String fullName ;
+    @NonNull
     @NotBlank(message = "Email cannot be empty.")
     @Email
     private String email;

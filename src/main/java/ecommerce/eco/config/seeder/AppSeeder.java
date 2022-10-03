@@ -23,6 +23,7 @@ public class AppSeeder {
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         // create role
@@ -38,15 +39,27 @@ public class AppSeeder {
         if (sizeList.isEmpty()) {
             createSizes();
         }
+        List<Image> images=imageRepository.findAll();
+        if(images.isEmpty()){
+            createImage();
+        }
         // create Category
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty()){
             createCategories();
         }
+
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
            createUsers();
         }
+    }
+    private void createImage(){
+        Image img= Image.builder()
+                .imageUrl("https://group6nocountrygnavarro.s3.amazonaws.com/1664630878400_user.webp")
+                .fileName("admin_img")
+                .build();
+        imageRepository.save(img);
     }
 
     private void createCategories() {
@@ -108,7 +121,7 @@ public class AppSeeder {
                .fullName("Eco-Sport")
                .password("12345678")
                .softDeleted(Boolean.FALSE)
-               .image(null)
+               .image(imageRepository.getReferenceById(1L))
                .build();
        userRepository.save(user);
     }

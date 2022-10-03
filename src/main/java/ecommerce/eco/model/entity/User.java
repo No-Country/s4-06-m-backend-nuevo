@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,9 +26,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     @NotBlank(message = "FullName name Required")
+    @NotEmpty(message = "the full name can't be null")
     private String fullName;
     @NotBlank(message = "Email cannot be empty.")
+    @NotEmpty(message = "the email can't be null")
+    @NonNull
     @Email
     private String email;
     @NotBlank(message = "Password cannot be empty.")
