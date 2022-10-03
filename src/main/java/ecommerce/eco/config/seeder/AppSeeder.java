@@ -1,16 +1,10 @@
 package ecommerce.eco.config.seeder;
 
-import ecommerce.eco.model.entity.Category;
-import ecommerce.eco.model.entity.Color;
-import ecommerce.eco.model.entity.Role;
-import ecommerce.eco.model.entity.Size;
+import ecommerce.eco.model.entity.*;
 import ecommerce.eco.model.enums.ColorEnum;
 import ecommerce.eco.model.enums.SizeEnum;
-import ecommerce.eco.repository.CategoryRepository;
-import ecommerce.eco.repository.ColorRepository;
-import ecommerce.eco.repository.RoleRepository;
+import ecommerce.eco.repository.*;
 import ecommerce.eco.model.enums.RolesEnum;
-import ecommerce.eco.repository.SizeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -28,7 +22,7 @@ public class AppSeeder {
     private final CategoryRepository categoryRepository;
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
-
+    private final UserRepository userRepository;
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         // create role
@@ -41,14 +35,18 @@ public class AppSeeder {
             createColors();
         }
         List<Size> sizeList=sizeRepository.findAll();
-        if (colors.isEmpty()) {
+        if (sizeList.isEmpty()) {
             createSizes();
         }
         // create Category
         List<Category> categories = categoryRepository.findAll();
-        if (categories.isEmpty())
+        if (categories.isEmpty()){
             createCategories();
-
+        }
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+           createUsers();
+        }
     }
 
     private void createCategories() {
@@ -76,7 +74,7 @@ public class AppSeeder {
         createSize(2L, SizeEnum.M);
         createSize(3L, SizeEnum.S);
         createSize(4L, SizeEnum.XS);
-        createSize(5L, SizeEnum.NULL);
+
     }
     private void createSize(long id, SizeEnum sizeEnum) {
         Size size = new Size();
@@ -103,4 +101,16 @@ public class AppSeeder {
         role.setTimestamp(new Timestamp(System.currentTimeMillis()));
         roleRepository.save(role);
     }
+    private void createUsers(){
+       User user= User.builder()
+               .role(roleRepository.findById(1L).get())
+               .email("admin@eco-sport.com")
+               .fullName("Eco-Sport")
+               .password("12345678")
+               .softDeleted(Boolean.FALSE)
+               .image(null)
+               .build();
+       userRepository.save(user);
+    }
+
 }
