@@ -6,6 +6,8 @@ import ecommerce.eco.model.enums.ColorEnum;
 import ecommerce.eco.model.enums.SizeEnum;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +24,7 @@ public class ProductDiscountResponse {
     private String shortDetails;
     private String details;
     private String title;
+    private List<ImageResponse> imgList;
+   // private List<ReviewResponse> reviewResponses;
 
 }

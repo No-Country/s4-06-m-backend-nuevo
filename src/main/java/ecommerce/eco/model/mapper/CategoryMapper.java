@@ -3,6 +3,7 @@ package ecommerce.eco.model.mapper;
 import ecommerce.eco.model.entity.Category;
 import ecommerce.eco.model.request.CategoryRequest;
 import ecommerce.eco.model.response.CategoryDiscountResponse;
+import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,14 @@ public class CategoryMapper {
         return CategoryDiscountResponse.builder()
                 .products(category.getProducts().stream().map(
                                 productMapper::entityToDtoWithDiscount)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    public CategoryLightningDealResponse dtoToEntityLightningDeal(Category category) {
+        return CategoryLightningDealResponse.builder()
+                .lightningDealResponseList(category.getProducts().stream().map(
+                        productMapper::entityToDtoLightningDeal)
                         .collect(Collectors.toList()))
                 .build();
     }
