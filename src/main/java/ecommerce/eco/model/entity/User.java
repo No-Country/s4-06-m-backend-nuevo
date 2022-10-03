@@ -43,8 +43,13 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
+<<<<<<< HEAD
     @JoinColumn(name="image_id")
     @OneToOne(cascade = CascadeType.REFRESH)
+=======
+    @JoinColumn(name="user_img")
+    @OneToOne()
+>>>>>>> category heroku
     private Image image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
