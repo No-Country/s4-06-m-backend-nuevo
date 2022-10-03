@@ -4,6 +4,7 @@ import ecommerce.eco.model.entity.Category;
 import ecommerce.eco.model.mapper.CategoryMapper;
 import ecommerce.eco.model.request.CategoryRequest;
 import ecommerce.eco.model.response.CategoryDiscountResponse;
+import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.repository.CategoryRepository;
 import ecommerce.eco.service.abstraction.CategoryService;
@@ -70,6 +71,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findById(Long categoryId) {
         return getCategory(categoryId);
+    }
+
+    @Override
+    public CategoryLightningDealResponse getCategoryLightningDeal(Long lightningDealId) {
+        Category category = getCategory(lightningDealId);
+        if(category.getId() != 6)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Categoria no encontrada prueba con id = 6");
+        return categoryMapper.dtoToEntityLightningDeal(category);
     }
 
 

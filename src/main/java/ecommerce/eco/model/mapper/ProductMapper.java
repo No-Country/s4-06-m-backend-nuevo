@@ -1,9 +1,11 @@
 package ecommerce.eco.model.mapper;
 
+import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
+import ecommerce.eco.model.response.ProductLightningDealResponse;
 import ecommerce.eco.model.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductMapper {
     public final ImageMapper imageMapper;
+    private final ReviewMapper reviewMapper;
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
@@ -57,6 +60,21 @@ public class ProductMapper {
                 .priceWithoutDiscount(product.getPrice())
                 .discount(product.getDiscount())
                 .stock(product.isStock())
+                .imgList(product.getCarrousel().stream()
+                        .map(imageMapper::imageToDto)
+                        .collect(Collectors.toList()))
+                //.reviewResponses(product.getReviews().stream().map(reviewMapper::dtoToEntity).collect(
+                //        Collectors.toList()))
+                .build();
+    }
+
+    public ProductLightningDealResponse entityToDtoLightningDeal(Product product) {
+        return ProductLightningDealResponse.builder()
+                .id(product.getId())
+                .details(product.getDetails())
+                .price(product.getPrice())
+                .imgList(product.getCarrousel().stream().map(
+                        imageMapper::imageToDto).collect(Collectors.toList()))
                 .build();
     }
 }

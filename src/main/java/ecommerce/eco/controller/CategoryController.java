@@ -2,6 +2,7 @@ package ecommerce.eco.controller;
 
 import ecommerce.eco.model.request.CategoryRequest;
 import ecommerce.eco.model.response.CategoryDiscountResponse;
+import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.service.abstraction.CategoryService;
 
@@ -51,7 +52,11 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-
+    @GetMapping("/product/{lightningDealId}")
+    public ResponseEntity<CategoryLightningDealResponse> getCategoryLightningDeal(@PathVariable Long lightningDealId){
+        CategoryLightningDealResponse response = categoryService.getCategoryLightningDeal(lightningDealId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 
 }
