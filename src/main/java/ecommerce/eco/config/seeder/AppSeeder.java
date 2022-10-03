@@ -24,8 +24,11 @@ public class AppSeeder {
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
     private final UserRepository userRepository;
+<<<<<<< HEAD
     private final ImageRepository imageRepository;
     private final PasswordEncoder passwordEncoder;
+=======
+>>>>>>> category heroku
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         // create role
@@ -46,11 +49,15 @@ public class AppSeeder {
         if (categories.isEmpty()){
             createCategories();
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> category heroku
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
            createUsers();
         }
+<<<<<<< HEAD
     }
     private void createImage(User user){
         Image img= new Image();
@@ -59,6 +66,8 @@ public class AppSeeder {
             Image create=imageRepository.save(img);
        user.setImage(create );
        userRepository.save(user);
+=======
+>>>>>>> category heroku
     }
 
     private void createCategories() {
@@ -114,6 +123,7 @@ public class AppSeeder {
         roleRepository.save(role);
     }
     private void createUsers(){
+<<<<<<< HEAD
      /*  List<Image>  imgs=imageRepository.findAll();
        Image img=imageRepository.findById(1L).get();*/
         User user=new User();
@@ -126,6 +136,17 @@ public class AppSeeder {
         createImage(user);
 
 
+=======
+       User user= User.builder()
+               .role(roleRepository.findById(1L).get())
+               .email("admin@eco-sport.com")
+               .fullName("Eco-Sport")
+               .password("12345678")
+               .softDeleted(Boolean.FALSE)
+               .image(null)
+               .build();
+       userRepository.save(user);
+>>>>>>> category heroku
     }
 
 }
