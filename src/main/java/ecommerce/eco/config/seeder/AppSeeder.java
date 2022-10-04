@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class AppSeeder {
     private static final String PASSWORD = "12345678";
-    private final String[] categoryName = {"HOMBRE", "MUJER", "NIÑOS", "OFERTAS","NUEVAS OFERTAS","OFERTAS RELAMPAGO"};
+    private final String[] categoryName = {"HOMBRE", "MUJER", "NIÑOS", "OFERTAS", "NUEVAS OFERTAS", "OFERTAS RELAMPAGO"};
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepository;
     private final ColorRepository colorRepository;
@@ -26,6 +26,7 @@ public class AppSeeder {
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
     private final PasswordEncoder passwordEncoder;
+
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         // create role
@@ -37,35 +38,35 @@ public class AppSeeder {
         if (colors.isEmpty()) {
             createColors();
         }
-        List<Size> sizeList=sizeRepository.findAll();
+        List<Size> sizeList = sizeRepository.findAll();
         if (sizeList.isEmpty()) {
             createSizes();
         }
         // create Category
         List<Category> categories = categoryRepository.findAll();
-        if (categories.isEmpty()){
+        if (categories.isEmpty()) {
             createCategories();
         }
 
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
-           createUsers();
+            createUsers();
         }
-
     }
-    private void createImage(User user){
-        Image img= new Image();
-            img.setImageUrl("https://group6nocountrygnavarro.s3.amazonaws.com/1664630878400_user.webp");
-            img.setFileName("admin_img");
-            Image create=imageRepository.save(img);
-       user.setImage(create );
-       userRepository.save(user);
+
+    private void createImage(User user) {
+        Image img = new Image();
+        img.setImageUrl("https://group6nocountrygnavarro.s3.amazonaws.com/1664630878400_user.webp");
+        img.setFileName("admin_img");
+        Image create = imageRepository.save(img);
+        user.setImage(create);
+        userRepository.save(user);
     }
 
     private void createCategories() {
-        for(int i = 0; i < categoryName.length; i++){
+        for (int i = 0; i < categoryName.length; i++) {
             Category category = new Category();
-            category.setId((long) i+1);
+            category.setId((long) i + 1);
             category.setDescription(categoryName[i]);
             category.setSoftDeleted(false);
             categoryRepository.save(category);
@@ -76,19 +77,21 @@ public class AppSeeder {
         createRole(1L, RolesEnum.ADMIN);
         createRole(2L, RolesEnum.USER);
     }
+
     private void createColors() {
         createColor(1L, ColorEnum.LIGHT_BLUE);
         createColor(2L, ColorEnum.RED);
         createColor(3L, ColorEnum.ROSE);
         createColor(4L, ColorEnum.YELLOW);
     }
+
     private void createSizes() {
         createSize(1L, SizeEnum.L);
         createSize(2L, SizeEnum.M);
         createSize(3L, SizeEnum.S);
         createSize(4L, SizeEnum.XS);
-
     }
+
     private void createSize(long id, SizeEnum sizeEnum) {
         Size size = new Size();
         size.setId(id);
@@ -97,6 +100,7 @@ public class AppSeeder {
         size.setTimestamp(new Timestamp(System.currentTimeMillis()));
         sizeRepository.save(size);
     }
+
     private void createColor(long id, ColorEnum colorEnum) {
         Color color = new Color();
         color.setId(id);
@@ -114,8 +118,9 @@ public class AppSeeder {
         role.setTimestamp(new Timestamp(System.currentTimeMillis()));
         roleRepository.save(role);
     }
-    private void createUsers(){
-        User user=new User();
+
+    private void createUsers() {
+        User user = new User();
         user.setEmail("admin@eco-sport.com");
         user.setFullName("Eco-Sport");
         user.setPassword(passwordEncoder.encode(PASSWORD));
@@ -124,5 +129,4 @@ public class AppSeeder {
         user.setImage(null);
         createImage(user);
     }
-
 }

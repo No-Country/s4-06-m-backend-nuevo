@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductMapper {
     public final ImageMapper imageMapper;
-    //private final ReviewMapper reviewMapper;
 
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
@@ -30,12 +29,14 @@ public class ProductMapper {
                 .size(product.getSize().getName())
                 .stock(product.isStock())
                 .stars(product.getStars())
+                .category(product.getCategory().getDescription())
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
                 .build();
     }
-    public Product dtoToProduct(ProductRequest request, User user){
+
+    public Product dtoToProduct(ProductRequest request, User user) {
         return Product.builder()
                 .shortDetails(request.getShortDetails())
                 .details(request.getDetails())

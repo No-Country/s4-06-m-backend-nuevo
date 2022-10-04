@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final UserMapper userMapper;
+
     @Override
     public User getInfoUser() {
         Object userInstance = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.findByEmail(userInstance.toString());
     }
+
     @Override
     public UserResponse getById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
@@ -63,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAll() {
         return userRepository.findAll().stream()
-                .filter(p-> !p.isSoftDeleted())
+                .filter(p -> !p.isSoftDeleted())
                 .map(userMapper::dtoToEntityUser)
                 .collect(Collectors.toList());
     }
@@ -72,20 +74,20 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponse update(UserUpdateRequest request, MultipartFile image) {
         Image img;
-        User user =getInfoUser();
-        if(!user.getEmail().equalsIgnoreCase(request.getEmail())&&userRepository.findByEmail(request.getEmail()) != null){
+        User user = getInfoUser();
+        if (!user.getEmail().equalsIgnoreCase(request.getEmail()) && userRepository.findByEmail(request.getEmail()) != null) {
             throw new UserAlreadyExistException("Email is already in use.");
         }
-           img= imageService.update(user.getImage().getId(),imageService.imageUser(image));
+        img = imageService.update(user.getImage().getId(), imageService.imageUser(image));
         //convetimos archivo multiportFle en image
 
-        User userSaved=userRepository.save(userMapper.updateToMaper(user, request, img));
+        User userSaved = userRepository.save(userMapper.updateToMaper(user, request, img));
         return userMapper.dtoToEntityUser(userSaved);
     }
 
     private User getUser(Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        if(user.isSoftDeleted()){
+        if (user.isSoftDeleted()) {
             throw new EntityNotFoundException("User not found or has been deleted");
         }
         return user;

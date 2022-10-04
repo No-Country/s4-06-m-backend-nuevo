@@ -54,9 +54,8 @@ public class ProductServiceImpl implements ProductService {
         try {
             User user = userService.getInfoUser();
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
-
+            /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
-
             /*Color*/
             if (colorRepository.findByName(request.getColor().toUpperCase()) != null) {
                 product.setColor(colorRepository.findByName(request.getColor()));
@@ -66,7 +65,6 @@ public class ProductServiceImpl implements ProductService {
             /*Talle*/
             if (sizeRepository.findByName(request.getSize().toUpperCase()) != null) {
                 product.setSize(sizeRepository.findByName(request.getSize()));
-                LOGGER.error("El talle es valido" + product.getSize().getName());
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
             }

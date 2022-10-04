@@ -24,6 +24,7 @@ public class ProductResponse {
     private String details;
     private String title;
     private double stars;
+    private String category;
     private List<ImageResponse> imgList;
 
 }
