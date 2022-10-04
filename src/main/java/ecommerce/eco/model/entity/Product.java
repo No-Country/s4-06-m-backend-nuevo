@@ -31,7 +31,12 @@ public class Product {
     private String brand; // Marca
     private String view;
     private boolean stock;
+    private double stars = 0.0;
     private int discount; // descuento
+
+
+    private int contadorEstrellas = 0;
+
 
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
@@ -64,6 +69,21 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
     // ********************************************* //
+    public void addReviews(Review review){
+        reviews.add(review);
+        contadorEstrellas++;
+    }
+
+
+    public void agregarEstrella(double score){
+
+            stars = ((stars * contadorEstrellas) + score) / contadorEstrellas + 1;
+            //resetearContador();
+            //stars = Math.round(stars);
+    }
+    public void resetearContador(){
+        contadorEstrellas = 0;
+    }
 
     public double discount(){
         return (price * discount) / 100;

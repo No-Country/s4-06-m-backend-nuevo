@@ -6,6 +6,8 @@ import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 
+import java.util.List;
+
 public interface CategoryService {
     CategoryResponse create(CategoryRequest request);
 
@@ -20,4 +22,6 @@ public interface CategoryService {
     Category findById(Long categoryId);
 
     CategoryLightningDealResponse getCategoryLightningDeal(Long lightningDealId);
+
+    List<CategoryResponse> getAll();
 }

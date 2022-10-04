@@ -29,6 +29,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponse add(ReviewRequest request) {
         //User user = userService.getInfoUser(); //obtengo el user logueado
+        if(request.getScore() < 0 || request.getScore() > 5)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El puntaje no puede ser mayor a 5 y menor a 0");
         Product product = productService.findById(request.getIdProduct());
         Review review = reviewMapper.entityToDto(request);
         request.setIdProduct(product.getId());
@@ -36,7 +38,9 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Your username is not that, try with: " + user.getFullName());
         }*/
         Review reviewCreate = reviewRepository.save(review);
-        product.getReviews().add(reviewCreate);
+
+        product.addReviews(reviewCreate);
+        product.agregarEstrella(reviewCreate.getScore());
         productService.save(product);
         ReviewResponse response = reviewMapper.dtoToEntity(reviewCreate);
         response.setIdProduct(product.getId());

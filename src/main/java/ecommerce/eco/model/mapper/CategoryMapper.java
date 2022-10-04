@@ -57,4 +57,21 @@ public class CategoryMapper {
                         .collect(Collectors.toList()))
                 .build();
     }
+
+
+    public List<CategoryResponse> dtoToEntityList(List<Category> categories) {
+        List<CategoryResponse> responses = new ArrayList<>();
+        CategoryResponse response;
+        for (Category c: categories){
+            response = new CategoryResponse();
+            response.setId(c.getId());
+            response.setDescription(c.getDescription());
+            response.setProducts(c.getProducts().stream().map(
+                            productMapper::entityToDto)
+                    .collect(Collectors.toList()));
+            responses.add(response) ;
+        }
+
+        return responses;
+    }
 }
