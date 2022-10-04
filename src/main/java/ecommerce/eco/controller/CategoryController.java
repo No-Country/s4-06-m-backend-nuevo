@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @CrossOrigin(origins = "*")
@@ -60,6 +61,11 @@ public class CategoryController {
     @GetMapping("/product/{lightningDealId}")
     public ResponseEntity<CategoryLightningDealResponse> getCategoryLightningDeal(@PathVariable Long lightningDealId){
         CategoryLightningDealResponse response = categoryService.getCategoryLightningDeal(lightningDealId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<CategoryResponse>> getAll(){
+        List<CategoryResponse> response = categoryService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/category/description").permitAll()
                 .antMatchers(HttpMethod.GET, "/category/productWith/{newOffersId}").permitAll()
                 .antMatchers(HttpMethod.GET,"/category/product/{lightningDealId}").permitAll()
+                .antMatchers(HttpMethod.GET,"(category/all").permitAll()
                 /*User*/
                 .antMatchers(HttpMethod.GET, "/user/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/all").permitAll()

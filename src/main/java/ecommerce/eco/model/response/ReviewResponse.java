@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
 public class ReviewResponse {
 
     private Long id;
-    private int score; // estrellas o puntaje
+    private double score; // estrellas o puntaje
     private String username; // nombre del usuario
     private String comment; // comentario
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
