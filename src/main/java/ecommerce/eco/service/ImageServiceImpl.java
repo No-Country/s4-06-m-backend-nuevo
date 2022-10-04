@@ -40,7 +40,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @Transactional
     public Image imageUser(MultipartFile image) {
-        return awsService.uploadFile(image);
+        Image img= awsService.uploadFile(image);
+        LOGGER.warn("Iamegen creada"+ img.getFileName());
+        return imageRepository.save(img);
     }
 
     public Image findById(Long id){

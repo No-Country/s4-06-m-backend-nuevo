@@ -29,6 +29,7 @@ public class UserMapper {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(roleService.findBy(RolesEnum.USER.getFullRoleName()))
                 .image(imageService.imageUser(imageService.userDefault()))
+                .softDeleted(Boolean.FALSE)
                 .build();
     }
     public AuthResponse dtoToEntity(User user) {

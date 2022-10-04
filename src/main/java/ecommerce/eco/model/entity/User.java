@@ -43,8 +43,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @JoinColumn(name="user_img")
-    @OneToOne()
+    @JoinColumn(name="image_id")
+    @OneToOne(cascade = CascadeType.REFRESH)
     private Image image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
