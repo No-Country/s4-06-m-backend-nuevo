@@ -45,9 +45,10 @@ public class Product {
     @OneToOne()
     @JoinColumn(name = "id_size",nullable = true)
     private Size size;
-    @OneToOne()
-    @JoinColumn(name = "id_color",nullable = true)
-    private Color color;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_color")
+    private List<Color> color;
 
     private boolean softDeleted = Boolean.FALSE;
 

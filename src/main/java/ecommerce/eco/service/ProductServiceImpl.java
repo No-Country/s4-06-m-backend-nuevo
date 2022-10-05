@@ -15,10 +15,7 @@ import ecommerce.eco.model.response.ProductResponse;
 import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.repository.ProductRepository;
 import ecommerce.eco.repository.SizeRepository;
-import ecommerce.eco.service.abstraction.CategoryService;
-import ecommerce.eco.service.abstraction.ImageService;
-import ecommerce.eco.service.abstraction.ProductService;
-import ecommerce.eco.service.abstraction.UserService;
+import ecommerce.eco.service.abstraction.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ImageService imageService;
     private final ColorRepository colorRepository;
+    private final ColorService colorService;
     private final SizeRepository sizeRepository;
     private final ProductSpecifications productSpecifications;
 
@@ -54,14 +52,11 @@ public class ProductServiceImpl implements ProductService {
         try {
             User user = userService.getInfoUser();
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
+            /*Color*/
+            if (!colorService.checkList(request.getColor())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
             /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
-            /*Color*/
-            if (colorRepository.findByName(request.getColor().toUpperCase()) != null) {
-                product.setColor(colorRepository.findByName(request.getColor()));
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
-            }
+
             /*Talle*/
             if (sizeRepository.findByName(request.getSize().toUpperCase()) != null) {
                 product.setSize(sizeRepository.findByName(request.getSize()));
@@ -77,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
             for (int i = 0; i < product.getCarrousel().size() - 1; i++) {
                 productRepository.save(product);
             }
+            product.getColor().forEach(p->productRepository.save(product));
             return productMapper.entityToDto(productRepository.save(product));
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image product already registered");

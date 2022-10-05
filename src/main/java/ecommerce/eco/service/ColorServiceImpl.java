@@ -18,8 +18,19 @@ public class ColorServiceImpl implements ColorService {
     private final ColorMapper colorMapper;
     @Override
     public Color findBy(String name) {
-        return null;
+        return colorRepository.findByName(name);
     }
+
+    @Override
+    public boolean checkList(List<String> colors) {
+        for (String c: colors) {
+            if (colorRepository.findByName(c.toUpperCase()) == null) {
+               return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public List<ColorResponse> findAll() {

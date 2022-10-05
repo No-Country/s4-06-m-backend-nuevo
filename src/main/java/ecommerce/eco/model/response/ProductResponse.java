@@ -19,7 +19,7 @@ public class ProductResponse {
     private double price;
     private String brand; // Marca
     private String size;
-    private String color;
+    private List<ColorResponse> color;
     private String shortDetails;
     private String details;
     private String title;
