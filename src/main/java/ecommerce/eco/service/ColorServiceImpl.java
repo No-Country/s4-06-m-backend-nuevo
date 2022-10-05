@@ -8,6 +8,7 @@ import ecommerce.eco.service.abstraction.ColorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,5 +38,15 @@ public class ColorServiceImpl implements ColorService {
         return colorRepository.findAll().stream()
                 .map(colorMapper::entityToDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public List<Color> stringToEnty(List<String> request){
+        List<Color> colors=new ArrayList<>();
+        request.stream()
+                .map(p->colors.add(findBy(p.toUpperCase())))
+                .collect(Collectors.toList());
+        colors.stream()
+                .forEach(colorRepository::save);
+        return colors;
     }
 }

@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,7 +26,9 @@ public class Size {
 
     @Column(nullable = false)
     private String description;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
     @CreationTimestamp
     private Timestamp timestamp;
+
 }

@@ -33,22 +33,19 @@ public class Product {
     private boolean stock;
     private double stars = 0.0;
     private int discount; // descuento
-
-
     private int contadorEstrellas = 0;
-
-
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
 
-    @OneToOne()
-    @JoinColumn(name = "id_size",nullable = true)
-    private Size size;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Size> sizes;
+//    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL)
+//    List<Turn> turnList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_color")
-    private List<Color> color;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_product")
+    private List<Color> colors;
 
     private boolean softDeleted = Boolean.FALSE;
 

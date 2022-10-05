@@ -41,6 +41,7 @@ public class ProductServiceImpl implements ProductService {
     private final ImageService imageService;
     private final ColorRepository colorRepository;
     private final ColorService colorService;
+    private final SizeService sizeService;
     private final SizeRepository sizeRepository;
     private final ProductSpecifications productSpecifications;
 
@@ -53,26 +54,37 @@ public class ProductServiceImpl implements ProductService {
             User user = userService.getInfoUser();
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
             /*Color*/
-            if (!colorService.checkList(request.getColor())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+            if (!colorService.checkList(request.getColors())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+
+            if(!sizeService.checkList(request.getSizes()))  throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
             /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
+            product.setColors(colorService.stringToEnty(request.getColors()));
 
-            /*Talle*/
-            if (sizeRepository.findByName(request.getSize().toUpperCase()) != null) {
-                product.setSize(sizeRepository.findByName(request.getSize()));
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
+            for (int i = 0; i < product.getSizes().size(); i++) {
+                LOGGER.warn(product.getSizes().get(i).getName());
+
+               productRepository.save(product);
+            }
+            //salvando relacion color
+            for (int i = 0; i <product.getColors().size() ; i++) {
+                LOGGER.warn(product.getColors().get(i).getName());
+               productRepository.save(product);
             }
             /*imagenes*/
             product.setCarrousel(imageService.imagesPost(postImage));
             /*agrego category*/
             Category category = categoryService.findById(request.getCategoryId());
             product.setCategory(category);
-            /* product.getCarrousel().forEach(p->productRepository.save(product));*/
-            for (int i = 0; i < product.getCarrousel().size() - 1; i++) {
+
+            //salvando relacion imagen
+            for (int i = 0; i < product.getCarrousel().size() ; i++) {
+                LOGGER.warn(product.getCarrousel().get(i).getFileName());
                 productRepository.save(product);
             }
-            product.getColor().forEach(p->productRepository.save(product));
+            //salvando relacion  Size
+
+           // product.getColor().forEach(p->productRepository.save(product));
             return productMapper.entityToDto(productRepository.save(product));
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image product already registered");
@@ -133,11 +145,6 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponse> findByDetailsOrTitle(String title, String order) {
         List<Product> productList = productRepository.findAll(productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
         return productList.stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
-
-        /*return productRepository.findByDetailsOrTitle(details,title).stream()
-                .filter(p -> !p.isSoftDeleted())
-                .map(productMapper::entityToDto)
-                .collect(Collectors.toList());*/
     }
 
 

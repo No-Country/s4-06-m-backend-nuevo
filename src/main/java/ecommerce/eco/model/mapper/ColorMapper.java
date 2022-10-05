@@ -14,12 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-
 public class ColorMapper {
-  @Autowired
-  public  ColorRepository colorRepository;
-  @Autowired
-  public ColorService colorService;
+
   public ColorResponse entityToDto(Color color) {
     return ColorResponse.builder()
             .id(color.getId())
@@ -27,11 +23,5 @@ public class ColorMapper {
             .description(color.getDescription())
             .build();
   }
-  public List<Color> dtoToEnty(List<String> request){
-    List<Color> colors=new ArrayList<>();
-      request.stream()
-              .map(p->colors.add(colorService.findBy(p.toUpperCase())))
-              .collect(Collectors.toList());
-      return colors;
-  }
+
 }

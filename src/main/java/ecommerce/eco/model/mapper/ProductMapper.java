@@ -1,6 +1,5 @@
 package ecommerce.eco.model.mapper;
 
-import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
@@ -17,22 +16,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductMapper {
     @Autowired
-    public  ImageMapper imageMapper;
+    private  ImageMapper imageMapper;
     @Autowired
-    public  ColorMapper colorMapper;
+    private  ColorMapper colorMapper;
+    @Autowired
+    private SizeMapper sizeMapper;
 
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .brand(product.getBrand())
-                .color(product.getColor().stream()
-                        .map(colorMapper::entityToDto)
-                        .collect(Collectors.toList()))
                 .price(product.getPrice())
                 .details(product.getDetails())
                 .title(product.getTitle())
                 .shortDetails(product.getShortDetails())
-                .size(product.getSize().getName())
+                .sizes(product.getSizes().stream()
+                        .map(sizeMapper::entityToDto)
+                        .collect(Collectors.toList()))
                 .stock(product.isStock())
                 .stars(product.getStars())
                 .category(product.getCategory().getDescription())
@@ -49,7 +49,7 @@ public class ProductMapper {
                 .title(request.getTitle())
                 .brand(request.getBrand())
                 .cart(null)
-                .color(colorMapper.dtoToEnty(request.getColor()))
+                .sizes(sizeMapper.dtoToEnty(request.getSizes()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)

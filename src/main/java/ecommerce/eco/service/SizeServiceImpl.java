@@ -18,7 +18,17 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public Size findBy(String name) {
-        return null;
+        return sizeRepository.findByName(name);
+    }
+
+    @Override
+    public boolean checkList(List<String> sizes) {
+        for (String c: sizes) {
+            if (sizeRepository.findByName(c.toUpperCase()) == null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
