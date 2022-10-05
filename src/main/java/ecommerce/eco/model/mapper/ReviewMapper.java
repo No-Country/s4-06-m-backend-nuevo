@@ -6,6 +6,7 @@ import ecommerce.eco.model.response.ReviewResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Component
 public class ReviewMapper {
@@ -28,7 +29,6 @@ public class ReviewMapper {
                 .build();
     }
 
-
     public void reviewUpdate(Review review, ReviewRequest request) {
         review.setComment(request.getComment());
         review.setScore(request.getScore());
@@ -36,4 +36,5 @@ public class ReviewMapper {
         review.setTime(ZonedDateTime.now());
 
     }
+
 }

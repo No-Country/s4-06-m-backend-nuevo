@@ -24,6 +24,7 @@ public class ProductDiscountResponse {
     private String shortDetails;
     private String details;
     private String title;
+    private String category;
     private List<ImageResponse> imgList;
    // private List<ReviewResponse> reviewResponses;
 

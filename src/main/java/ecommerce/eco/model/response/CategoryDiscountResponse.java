@@ -12,6 +12,8 @@ import java.util.List;
 @Setter
 public class CategoryDiscountResponse {
 
+    private Long id;
+    private String description;
     //TODO  devuelve los productos con descuento
     private List<ProductDiscountResponse> products;
 

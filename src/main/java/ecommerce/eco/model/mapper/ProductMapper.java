@@ -2,6 +2,7 @@ package ecommerce.eco.model.mapper;
 
 import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.Product;
+import ecommerce.eco.model.entity.Review;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductMapper {
     public final ImageMapper imageMapper;
+    private final ReviewMapper reviewMapper;
 
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
@@ -33,7 +35,12 @@ public class ProductMapper {
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
+               // .reviewResponseList(product.getReviews().stream().map(reviewMapper::dtoToEntity)
+               //         .collect(Collectors.toList()))
                 .build();
+
+
+
     }
 
     public Product dtoToProduct(ProductRequest request, User user) {
@@ -62,6 +69,7 @@ public class ProductMapper {
                 .priceWithDiscount(discount)
                 .priceWithoutDiscount(product.getPrice())
                 .discount(product.getDiscount())
+                .category(product.getCategory().getDescription())
                 .stock(product.isStock())
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)

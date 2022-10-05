@@ -43,7 +43,6 @@ public class ReviewServiceImpl implements ReviewService {
         product.agregarEstrella(reviewCreate.getScore());
         productService.save(product);
         ReviewResponse response = reviewMapper.dtoToEntity(reviewCreate);
-        response.setIdProduct(product.getId());
         return response;
     }
 

@@ -44,6 +44,8 @@ public class CategoryMapper {
 
     public CategoryDiscountResponse dtoToEntityWithDiscount(Category category) {
         return CategoryDiscountResponse.builder()
+                .id(category.getId())
+                .description(category.getDescription())
                 .products(category.getProducts().stream().map(
                                 productMapper::entityToDtoWithDiscount)
                         .collect(Collectors.toList()))
@@ -52,6 +54,8 @@ public class CategoryMapper {
 
     public CategoryLightningDealResponse dtoToEntityLightningDeal(Category category) {
         return CategoryLightningDealResponse.builder()
+                .id(category.getId())
+                .description(category.getDescription())
                 .lightningDealResponseList(category.getProducts().stream().map(
                         productMapper::entityToDtoLightningDeal)
                         .collect(Collectors.toList()))

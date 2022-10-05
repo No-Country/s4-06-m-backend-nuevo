@@ -26,5 +26,6 @@ public class ProductResponse {
     private double stars;
     private String category;
     private List<ImageResponse> imgList;
+    //private List<ReviewResponse> reviewResponseList;
 
 }

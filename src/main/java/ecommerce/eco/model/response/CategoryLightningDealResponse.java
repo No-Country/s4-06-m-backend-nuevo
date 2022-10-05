@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CategoryLightningDealResponse {
-
+    private Long id;
+    private String description;
     private List<ProductLightningDealResponse> lightningDealResponseList;
 }
