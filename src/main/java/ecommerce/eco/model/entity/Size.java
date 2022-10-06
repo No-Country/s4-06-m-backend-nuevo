@@ -23,11 +23,8 @@ public class Size {
     private Long id;
     @Column(nullable = false)
     private String name;
-
     @Column(nullable = false)
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Product product;
     @CreationTimestamp
     private Timestamp timestamp;
 

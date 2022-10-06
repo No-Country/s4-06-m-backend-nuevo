@@ -9,4 +9,5 @@ public interface SizeService {
     Size findBy(String name);
     boolean checkList(List<String> sizes);
     List<SizeResponse> findAll();
+    List<Size> stringToEnty(List<String> sizes);
 }

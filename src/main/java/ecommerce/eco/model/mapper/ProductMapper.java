@@ -6,21 +6,30 @@ import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductLightningDealResponse;
 import ecommerce.eco.model.response.ProductResponse;
-import lombok.RequiredArgsConstructor;
+import ecommerce.eco.service.abstraction.CategoryService;
+import ecommerce.eco.service.abstraction.ColorService;
+import ecommerce.eco.service.abstraction.SizeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductMapper {
+   @Autowired
+   private  ImageMapper imageMapper;
     @Autowired
-    private  ImageMapper imageMapper;
-    @Autowired
-    private  ColorMapper colorMapper;
+   private  ColorMapper colorMapper;
     @Autowired
     private SizeMapper sizeMapper;
+    @Autowired
+    private  ColorService colorService;
+    @Autowired
+    private   SizeService sizeService;
+    @Autowired
+    private  CategoryService categoryService;
 
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
@@ -32,6 +41,9 @@ public class ProductMapper {
                 .shortDetails(product.getShortDetails())
                 .sizes(product.getSizes().stream()
                         .map(sizeMapper::entityToDto)
+                        .collect(Collectors.toList()))
+                .colors(product.getColors().stream()
+                        .map(colorMapper::entityToDto)
                         .collect(Collectors.toList()))
                 .stock(product.isStock())
                 .stars(product.getStars())
@@ -48,8 +60,10 @@ public class ProductMapper {
                 .details(request.getDetails())
                 .title(request.getTitle())
                 .brand(request.getBrand())
+                .colors(colorService.stringToEnty(request.getColors()))
+                .sizes(sizeService.stringToEnty(request.getSizes()))
                 .cart(null)
-                .sizes(sizeMapper.dtoToEnty(request.getSizes()))
+                .category(categoryService.findById(request.getCategoryId()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)

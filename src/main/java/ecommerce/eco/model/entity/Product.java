@@ -16,12 +16,15 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
     @NotEmpty(message = "description cannot be empty")
     private String shortDetails;
@@ -38,13 +41,9 @@ public class Product {
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Size> sizes;
-//    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL)
-//    List<Turn> turnList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_product")
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Color> colors;
 
     private boolean softDeleted = Boolean.FALSE;
@@ -66,25 +65,32 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
+
     // ********************************************* //
-    public void addReviews(Review review){
+    public void addReviews(Review review) {
         reviews.add(review);
         contadorEstrellas++;
     }
 
 
-    public void agregarEstrella(double score){
+    public void agregarEstrella(double score) {
 
-            stars = ((stars * contadorEstrellas) + score) / contadorEstrellas + 1;
-            //resetearContador();
-            //stars = Math.round(stars);
+        stars = ((stars * contadorEstrellas) + score) / contadorEstrellas + 1;
+        //resetearContador();
+        //stars = Math.round(stars);
     }
-    public void resetearContador(){
+
+    public void resetearContador() {
         contadorEstrellas = 0;
     }
 
-    public double discount(){
+    public double discount() {
         return (price * discount) / 100;
     }
+
+    public void addBColor(Color color) {
+        colors.add(color);
+    }
+
 
 }

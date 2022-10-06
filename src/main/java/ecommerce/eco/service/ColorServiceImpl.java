@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class ColorServiceImpl implements ColorService {
     private final ColorRepository colorRepository;
     private final ColorMapper colorMapper;
+
     @Override
     public Color findBy(String name) {
         return colorRepository.findByName(name);
@@ -24,14 +25,13 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public boolean checkList(List<String> colors) {
-        for (String c: colors) {
+        for (String c : colors) {
             if (colorRepository.findByName(c.toUpperCase()) == null) {
-               return false;
+                return false;
             }
         }
         return true;
     }
-
 
     @Override
     public List<ColorResponse> findAll() {
@@ -40,13 +40,11 @@ public class ColorServiceImpl implements ColorService {
                 .collect(Collectors.toList());
     }
     @Override
-    public List<Color> stringToEnty(List<String> request){
-        List<Color> colors=new ArrayList<>();
+    public List<Color> stringToEnty(List<String> request) {
+        List<Color> colors = new ArrayList<>();
         request.stream()
-                .map(p->colors.add(findBy(p.toUpperCase())))
+                .map(p -> colors.add(findBy(p.toUpperCase())))
                 .collect(Collectors.toList());
-        colors.stream()
-                .forEach(colorRepository::save);
         return colors;
     }
 }
