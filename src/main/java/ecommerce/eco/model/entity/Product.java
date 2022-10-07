@@ -59,9 +59,8 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private List<Image> carrousel = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<Image> carrousel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
