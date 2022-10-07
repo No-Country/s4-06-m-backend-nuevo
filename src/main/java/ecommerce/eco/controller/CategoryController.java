@@ -69,5 +69,13 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<CategoryResponse> findByTitleAndDescription(
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String title){
+        CategoryResponse response = categoryService.findByTitleAndDescription(description,title);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 
 }

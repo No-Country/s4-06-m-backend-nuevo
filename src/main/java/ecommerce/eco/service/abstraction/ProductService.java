@@ -17,5 +17,5 @@ public interface ProductService {
     void delete(Long id);
     List<ProductResponse> getAll();
     List<ProductResponse> findByDetailsOrTitle(String details, String title);
-
+    List<ProductResponse> findByTitle(String title);
 }

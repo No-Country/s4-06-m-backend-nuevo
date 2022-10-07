@@ -1,13 +1,16 @@
 package ecommerce.eco.service;
 
 import ecommerce.eco.model.entity.Category;
+import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.mapper.CategoryMapper;
+import ecommerce.eco.model.mapper.ProductMapper;
 import ecommerce.eco.model.request.CategoryRequest;
 import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.repository.CategoryRepository;
 import ecommerce.eco.service.abstraction.CategoryService;
+import ecommerce.eco.service.abstraction.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
     private  CategoryRepository categoryRepository;
     @Autowired
     private  CategoryMapper categoryMapper;
+
+    @Autowired
+    private ProductService productService;
 
     @Override
     public CategoryResponse create(CategoryRequest request) {
@@ -90,6 +96,14 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.dtoToEntityList(categories);
     }
 
+    @Override
+    public CategoryResponse findByTitleAndDescription(String description, String title) {
+        Category category = categoryRepository.findByDescription(description);
+        CategoryResponse response = categoryMapper.dtoToEntityFilter(category,title);
+        response.setProducts(productService.findByTitle(title));
+        return response;
+    }
+
 
     private Category getCategory(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
@@ -98,4 +112,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return category.get();
     }
+
+
 }

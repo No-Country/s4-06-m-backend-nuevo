@@ -123,6 +123,13 @@ public class ProductServiceImpl implements ProductService {
         return productList.stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProductResponse> findByTitle(String title) {
+        List<Product> products = productRepository.findByTitle(title);
+        List<ProductResponse> responses = productMapper.entityToDtoList(products);
+        return responses;
+    }
+
 
 }
 
