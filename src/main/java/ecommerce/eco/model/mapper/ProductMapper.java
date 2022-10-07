@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -74,6 +76,7 @@ public class ProductMapper {
                 .reviews(null)
                 .stock(request.isStock())
                 .view(request.getView())
+                .stars(request.getStar())
                 .build();
     }
 
@@ -106,5 +109,32 @@ public class ProductMapper {
                 .imgList(product.getCarrousel().stream().map(
                         imageMapper::imageToDto).collect(Collectors.toList()))
                 .build();
+    }
+
+    public List<ProductResponse> entityToDtoList(List<Product> products) {
+        List<ProductResponse> responses = new ArrayList<>();
+        ProductResponse productResponse;
+        for (Product p: products){
+            productResponse = new ProductResponse();
+            productResponse.setId(p.getId());
+            productResponse.setBrand(p.getBrand());
+            productResponse.setDetails(p.getDetails());
+            productResponse.setCategory(p.getCategory().getDescription());
+            productResponse.setPrice(p.getPrice());
+            productResponse.setShortDetails(p.getShortDetails());
+            productResponse.setStars(p.getStars());
+            productResponse.setView(p.getView());
+            productResponse.setStock(p.isStock());
+            productResponse.setTitle(p.getTitle());
+            productResponse.setImgList(p.getCarrousel().stream().map(
+                            imageMapper::imageToDto)
+                    .collect(Collectors.toList()));
+            productResponse.setColors(p.getColors().stream().map(
+                    colorMapper::entityToDto).collect(Collectors.toList()));
+            productResponse.setSizes(p.getSizes().stream().map(sizeMapper::entityToDto)
+                    .collect(Collectors.toList()));
+            responses.add(productResponse);
+        }
+        return responses;
     }
 }

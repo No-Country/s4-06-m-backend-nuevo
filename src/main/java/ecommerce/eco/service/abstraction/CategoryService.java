@@ -24,4 +24,6 @@ public interface CategoryService {
     CategoryLightningDealResponse getCategoryLightningDeal(Long lightningDealId);
 
     List<CategoryResponse> getAll();
+
+    CategoryResponse findByTitleAndDescription(String description, String title);
 }
