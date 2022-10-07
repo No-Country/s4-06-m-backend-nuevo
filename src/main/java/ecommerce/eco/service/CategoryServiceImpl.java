@@ -9,8 +9,10 @@ import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.repository.CategoryRepository;
+import ecommerce.eco.repository.ProductRepository;
 import ecommerce.eco.service.abstraction.CategoryService;
 import ecommerce.eco.service.abstraction.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,17 +20,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-
-
+@RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    @Autowired
-    private  CategoryRepository categoryRepository;
-    @Autowired
-    private  CategoryMapper categoryMapper;
 
-    @Autowired
-    private ProductService productService;
+    private final CategoryRepository categoryRepository;
+
+    private final CategoryMapper categoryMapper;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+
+   // private final ProductService productService;
 
     @Override
     public CategoryResponse create(CategoryRequest request) {
@@ -99,8 +101,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse findByTitleAndDescription(String description, String title) {
         Category category = categoryRepository.findByDescription(description);
+        List<Product> products = productRepository.findByTitle(title);
         CategoryResponse response = categoryMapper.dtoToEntityFilter(category,title);
-        response.setProducts(productService.findByTitle(title));
+        response.setProducts(productMapper.entityToDtoList(products));
         return response;
     }
 

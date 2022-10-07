@@ -25,24 +25,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ProductMapper productMapper;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private ImageService imageService;
-    @Autowired
-    private ColorService colorService;
-    @Autowired
-    private SizeService sizeService;
-    @Autowired
-    private ProductSpecifications productSpecifications;
+
+    private final UserService userService;
+
+    private final ProductMapper productMapper;
+
+    private final ProductRepository productRepository;
+
+    private final ImageService imageService;
+
+    private final ColorService colorService;
+
+    private final SizeService sizeService;
+
+    private final ProductSpecifications productSpecifications;
+
+
+    private final CategoryService categoryService;
 
 
     @Override
@@ -59,6 +62,9 @@ public class ProductServiceImpl implements ProductService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
             /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
+            product.setColors(colorService.stringToEnty(request.getColors()));
+            product.setSizes(sizeService.stringToEnty(request.getSizes()));
+            product.setCategory(categoryService.findById(request.getCategoryId()));
             //add image
             product.setCarrousel(imageService.imagesPost(postImage));
             return productMapper.entityToDto(productRepository.save(product));
