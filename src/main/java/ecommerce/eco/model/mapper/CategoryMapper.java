@@ -6,6 +6,7 @@ import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.repository.CategoryRepository;
+import ecommerce.eco.service.abstraction.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,11 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@RequiredArgsConstructor
 @Component
 public class CategoryMapper {
-    @Autowired
-    private  ProductMapper productMapper;
+    private final ProductMapper productMapper;
     public Category entityToDto(CategoryRequest request) {
         return Category.builder()
                 .description(request.getDescription())

@@ -28,12 +28,7 @@ public class ProductMapper {
    private  ColorMapper colorMapper;
     @Autowired
     private SizeMapper sizeMapper;
-    @Autowired
-    private  ColorService colorService;
-    @Autowired
-    private   SizeService sizeService;
-    @Autowired
-    private  CategoryService categoryService;
+
 
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
@@ -67,10 +62,10 @@ public class ProductMapper {
                 .details(request.getDetails())
                 .title(request.getTitle())
                 .brand(request.getBrand())
-                .colors(colorService.stringToEnty(request.getColors()))
-                .sizes(sizeService.stringToEnty(request.getSizes()))
+               // .colors(colorService.stringToEnty(request.getColors()))
+               // .sizes(sizeService.stringToEnty(request.getSizes()))
                 .cart(null)
-                .category(categoryService.findById(request.getCategoryId()))
+               // .category(categoryService.findById(request.getCategoryId()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)
