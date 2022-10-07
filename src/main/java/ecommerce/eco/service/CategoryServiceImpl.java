@@ -8,21 +8,21 @@ import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
 import ecommerce.eco.repository.CategoryRepository;
 import ecommerce.eco.service.abstraction.CategoryService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
-    private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
+    @Autowired
+    private  CategoryRepository categoryRepository;
+    @Autowired
+    private  CategoryMapper categoryMapper;
 
     @Override
     public CategoryResponse create(CategoryRequest request) {

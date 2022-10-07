@@ -1,5 +1,6 @@
 package ecommerce.eco.model.response;
 
+import ecommerce.eco.model.entity.Size;
 import lombok.*;
 
 
@@ -18,8 +19,8 @@ public class ProductResponse {
     private boolean stock;
     private double price;
     private String brand; // Marca
-    private String size;
-    private String color;
+    private List<SizeResponse> sizes;
+    private List<ColorResponse> colors;
     private String shortDetails;
     private String details;
     private String title;
