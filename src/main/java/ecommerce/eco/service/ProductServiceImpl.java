@@ -1,27 +1,19 @@
 package ecommerce.eco.service;
 
 
-import ecommerce.eco.model.entity.Category;
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.entity.User;
-
-
 import ecommerce.eco.config.filters.ProductSpecifications;
-
 import ecommerce.eco.model.mapper.ProductMapper;
 import ecommerce.eco.model.request.ProductFilterRequest;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
-import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.repository.ProductRepository;
-import ecommerce.eco.repository.SizeRepository;
-import ecommerce.eco.service.abstraction.CategoryService;
-import ecommerce.eco.service.abstraction.ImageService;
-import ecommerce.eco.service.abstraction.ProductService;
-import ecommerce.eco.service.abstraction.UserService;
+import ecommerce.eco.service.abstraction.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,19 +26,24 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
-    private final UserService userService;
-    private final ProductMapper productMapper;
-    private final ProductRepository productRepository;
-    private final ImageService imageService;
-    private final ColorRepository colorRepository;
-    private final SizeRepository sizeRepository;
-    private final ProductSpecifications productSpecifications;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ProductMapper productMapper;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private ColorService colorService;
+    @Autowired
+    private SizeService sizeService;
+    @Autowired
+    private ProductSpecifications productSpecifications;
 
-    private final CategoryService categoryService;
 
     @Override
     @Transactional
@@ -54,32 +51,19 @@ public class ProductServiceImpl implements ProductService {
         try {
             User user = userService.getInfoUser();
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
+            /*Color*/
+            if (!colorService.checkList(request.getColors()))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+
+            if (!sizeService.checkList(request.getSizes()))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
             /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
-            /*Color*/
-            if (colorRepository.findByName(request.getColor().toUpperCase()) != null) {
-                product.setColor(colorRepository.findByName(request.getColor()));
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
-            }
-            /*Talle*/
-            if (sizeRepository.findByName(request.getSize().toUpperCase()) != null) {
-                product.setSize(sizeRepository.findByName(request.getSize()));
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
-            }
-            /*imagenes*/
+            //add image
             product.setCarrousel(imageService.imagesPost(postImage));
-            /*agrego category*/
-            Category category = categoryService.findById(request.getCategoryId());
-            product.setCategory(category);
-            /* product.getCarrousel().forEach(p->productRepository.save(product));*/
-            for (int i = 0; i < product.getCarrousel().size() - 1; i++) {
-                productRepository.save(product);
-            }
             return productMapper.entityToDto(productRepository.save(product));
         } catch (NullPointerException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image product already registered");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product loading error or database connection error");
         }
 
     }
@@ -137,11 +121,6 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponse> findByDetailsOrTitle(String title, String order) {
         List<Product> productList = productRepository.findAll(productSpecifications.getFiltered(new ProductFilterRequest(title, order)));
         return productList.stream().filter(p -> !p.isSoftDeleted()).map(productMapper::entityToDto).collect(Collectors.toList());
-
-        /*return productRepository.findByDetailsOrTitle(details,title).stream()
-                .filter(p -> !p.isSoftDeleted())
-                .map(productMapper::entityToDto)
-                .collect(Collectors.toList());*/
     }
 
 

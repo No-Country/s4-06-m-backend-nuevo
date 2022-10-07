@@ -31,7 +31,7 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> imagesPost(List<MultipartFile> postImage) {
         List<Image> imagesPost=new ArrayList<>();
         for (MultipartFile m: postImage ) {
-            imagesPost.add(awsService.uploadFile(m));
+            imagesPost.add(imageRepository.save(awsService.uploadFile(m)));
         }
         LOGGER.warn("Array de amazon creado "+imagesPost.size());
         return imagesPost;

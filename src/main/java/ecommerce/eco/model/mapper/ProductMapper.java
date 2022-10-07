@@ -1,38 +1,61 @@
 package ecommerce.eco.model.mapper;
 
-import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.Product;
+import ecommerce.eco.model.entity.Review;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductLightningDealResponse;
 import ecommerce.eco.model.response.ProductResponse;
-import lombok.RequiredArgsConstructor;
+import ecommerce.eco.service.abstraction.CategoryService;
+import ecommerce.eco.service.abstraction.ColorService;
+import ecommerce.eco.service.abstraction.SizeService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductMapper {
-    public final ImageMapper imageMapper;
+
+   @Autowired
+   private  ImageMapper imageMapper;
+    @Autowired
+   private  ColorMapper colorMapper;
+    @Autowired
+    private SizeMapper sizeMapper;
+    @Autowired
+    private  ColorService colorService;
+    @Autowired
+    private   SizeService sizeService;
+    @Autowired
+    private  CategoryService categoryService;
 
     public ProductResponse entityToDto(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .brand(product.getBrand())
-                .color(product.getColor().getName())
                 .price(product.getPrice())
                 .details(product.getDetails())
                 .title(product.getTitle())
+                .view(product.getView())
                 .shortDetails(product.getShortDetails())
-                .size(product.getSize().getName())
+                .sizes(product.getSizes().stream()
+                        .map(sizeMapper::entityToDto)
+                        .collect(Collectors.toList()))
+                .colors(product.getColors().stream()
+                        .map(colorMapper::entityToDto)
+                        .collect(Collectors.toList()))
                 .stock(product.isStock())
                 .stars(product.getStars())
                 .category(product.getCategory().getDescription())
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
+               // .reviewResponseList(product.getReviews().stream().map(reviewMapper::dtoToEntity)
+               //         .collect(Collectors.toList()))
                 .build();
     }
 
@@ -42,7 +65,10 @@ public class ProductMapper {
                 .details(request.getDetails())
                 .title(request.getTitle())
                 .brand(request.getBrand())
+                .colors(colorService.stringToEnty(request.getColors()))
+                .sizes(sizeService.stringToEnty(request.getSizes()))
                 .cart(null)
+                .category(categoryService.findById(request.getCategoryId()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)
@@ -62,6 +88,7 @@ public class ProductMapper {
                 .priceWithDiscount(discount)
                 .priceWithoutDiscount(product.getPrice())
                 .discount(product.getDiscount())
+                .category(product.getCategory().getDescription())
                 .stock(product.isStock())
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)

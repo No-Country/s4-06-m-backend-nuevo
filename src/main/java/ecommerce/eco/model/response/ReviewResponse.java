@@ -18,5 +18,5 @@ public class ReviewResponse {
     private String comment; // comentario
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private ZonedDateTime time;
-    private Long idProduct;
+
 }

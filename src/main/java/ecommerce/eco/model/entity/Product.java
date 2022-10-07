@@ -16,12 +16,15 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
     @NotEmpty(message = "description cannot be empty")
     private String shortDetails;
@@ -29,25 +32,20 @@ public class Product {
     private String title;
     @NotEmpty(message = "Brand cannot be empty")
     private String brand; // Marca
-    private String view;
+    private int view = 0;
     private boolean stock;
     private double stars = 0.0;
     private int discount; // descuento
 
-
-    private int contadorEstrellas = 0;
-
-
+    private int starCounter = 0;
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
 
-    @OneToOne()
-    @JoinColumn(name = "id_size",nullable = true)
-    private Size size;
-    @OneToOne()
-    @JoinColumn(name = "id_color",nullable = true)
-    private Color color;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<Size> sizes;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<Color> colors;
 
     private boolean softDeleted = Boolean.FALSE;
 
@@ -62,31 +60,32 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private List<Image> carrousel = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<Image> carrousel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
-    // ********************************************* //
-    public void addReviews(Review review){
+
+
+    public void addReviews(Review review) {
         reviews.add(review);
-        contadorEstrellas++;
+        starCounter++;
     }
 
 
-    public void agregarEstrella(double score){
+    public void addStar(double score) {
 
-            stars = ((stars * contadorEstrellas) + score) / contadorEstrellas + 1;
-            //resetearContador();
-            //stars = Math.round(stars);
-    }
-    public void resetearContador(){
-        contadorEstrellas = 0;
+        stars = ((stars * starCounter) + score) / starCounter + 1;
+        //stars = Math.round(stars);
     }
 
-    public double discount(){
+    public double discount() {
         return (price * discount) / 100;
     }
+
+    public void addBColor(Color color) {
+        colors.add(color);
+    }
+
 
 }

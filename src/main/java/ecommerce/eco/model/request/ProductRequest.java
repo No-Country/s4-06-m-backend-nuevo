@@ -7,7 +7,7 @@ import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
+import java.util.List;
 
 
 @Builder
@@ -25,13 +25,13 @@ public class ProductRequest {
     private String title;
     @NotEmpty(message = "Brand cannot be empty")
     private String brand; // Marca
-    private String view;
+    private int view;
     private boolean stock;
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
-    private String size;
-    private String color;
+    private List<String> sizes;
+    private List<String> colors;
     @NotNull(message = "id cannot by null")
     private Long categoryId;
 
