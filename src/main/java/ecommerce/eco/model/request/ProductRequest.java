@@ -25,7 +25,7 @@ public class ProductRequest {
     private String title;
     @NotEmpty(message = "Brand cannot be empty")
     private String brand; // Marca
-    private String view;
+    private int view;
     private boolean stock;
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")

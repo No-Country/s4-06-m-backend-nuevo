@@ -1,10 +1,10 @@
 package ecommerce.eco.model.enums;
 
 public enum ColorEnum {
-    LIGHT_BLUE("LIGHT_BLUE"),
-    ROSE("ROSE")
-    ,RED("RED"),
-    YELLOW("YELLOW");
+    A("#ff0000"),
+    B("#00ff00"),
+    C("#0000ff"),
+    D("YELLOW");
     private final String name ;
     ColorEnum(String name) {
         this.name = name;

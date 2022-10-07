@@ -32,11 +32,12 @@ public class Product {
     private String title;
     @NotEmpty(message = "Brand cannot be empty")
     private String brand; // Marca
-    private String view;
+    private int view = 0;
     private boolean stock;
     private double stars = 0.0;
     private int discount; // descuento
-    private int contadorEstrellas = 0;
+
+    private int starCounter = 0;
     @NotNull(message = "You must specify the price")
     @Min(value = 0, message = "The minimum price is 0")
     private double price;
@@ -66,22 +67,17 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
 
-    // ********************************************* //
+
     public void addReviews(Review review) {
         reviews.add(review);
-        contadorEstrellas++;
+        starCounter++;
     }
 
 
-    public void agregarEstrella(double score) {
+    public void addStar(double score) {
 
-        stars = ((stars * contadorEstrellas) + score) / contadorEstrellas + 1;
-        //resetearContador();
+        stars = ((stars * starCounter) + score) / starCounter + 1;
         //stars = Math.round(stars);
-    }
-
-    public void resetearContador() {
-        contadorEstrellas = 0;
     }
 
     public double discount() {

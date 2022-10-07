@@ -40,6 +40,7 @@ public class ProductMapper {
                 .price(product.getPrice())
                 .details(product.getDetails())
                 .title(product.getTitle())
+                .view(product.getView())
                 .shortDetails(product.getShortDetails())
                 .sizes(product.getSizes().stream()
                         .map(sizeMapper::entityToDto)

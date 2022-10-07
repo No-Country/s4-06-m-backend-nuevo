@@ -14,7 +14,7 @@ public class ReviewMapper {
         return Review.builder()
                 .score(request.getScore())
                 .comment(request.getComment())
-                .username(request.getUsername())
+                //.username(request.getUsername())
                 .time(ZonedDateTime.now())
                 .build();
     }

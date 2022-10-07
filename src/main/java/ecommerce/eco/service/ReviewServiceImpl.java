@@ -28,22 +28,20 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserService userService;
     @Override
     public ReviewResponse add(ReviewRequest request) {
-        //User user = userService.getInfoUser(); //obtengo el user logueado
-        if(request.getScore() < 0 || request.getScore() > 5)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El puntaje no puede ser mayor a 5 y menor a 0");
+        User user = userService.getInfoUser(); //obtengo el user logueado
         Product product = productService.findById(request.getIdProduct());
+        if(product.isSoftDeleted() || product == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Product not found");
+        }
         Review review = reviewMapper.entityToDto(request);
-        request.setIdProduct(product.getId());
-        /*  if(!user.getFullName().equalsIgnoreCase(request.getUsername())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Your username is not that, try with: " + user.getFullName());
-        }*/
+       // request.setIdProduct(product.getId());
+        review.setUsername(user.getUsername());
         Review reviewCreate = reviewRepository.save(review);
 
         product.addReviews(reviewCreate);
-        product.agregarEstrella(reviewCreate.getScore());
+        product.addStar(reviewCreate.getScore());
         productService.save(product);
-        ReviewResponse response = reviewMapper.dtoToEntity(reviewCreate);
-        return response;
+        return reviewMapper.dtoToEntity(reviewCreate);
     }
 
     @Override
