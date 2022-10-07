@@ -61,12 +61,6 @@ public class ProductServiceImpl implements ProductService {
             Product product = productMapper.dtoToProduct(request, user);
             //add image
             product.setCarrousel(imageService.imagesPost(postImage));
-            //salvando relacion imagen
-            for (int i = 0; i < product.getCarrousel().size(); i++) {
-                LOGGER.warn(product.getCarrousel().get(i).getFileName());
-                productRepository.save(product);
-            }
-
             return productMapper.entityToDto(productRepository.save(product));
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product loading error or database connection error");

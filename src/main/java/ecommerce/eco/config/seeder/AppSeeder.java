@@ -79,10 +79,10 @@ public class AppSeeder {
     }
 
     private void createColors() {
-        createColor(1L, ColorEnum.A);
-        createColor(2L, ColorEnum.B);
-        createColor(3L, ColorEnum.C);
-        createColor(4L, ColorEnum.D);
+        createColor(1L, ColorEnum.LIGHT_BLUE);
+        createColor(2L, ColorEnum.RED);
+        createColor(3L, ColorEnum.ROSE);
+        createColor(4L, ColorEnum.YELLOW);
     }
 
     private void createSizes() {
