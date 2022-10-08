@@ -30,7 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewResponse add(ReviewRequest request) {
         User user = userService.getInfoUser(); //obtengo el user logueado
         Product product = productService.findById(request.getIdProduct());
-        if(product.isSoftDeleted() || product == null){
+        if(product.isSoftDeleted()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Product not found");
         }
         Review review = reviewMapper.entityToDto(request);
@@ -56,11 +56,5 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewMapper.dtoToEntity(reviewCreate);
     }
 
-    private Review getReview(Long id) {
-        Optional<Review> review = reviewRepository.findById(id);
-        if(review.isEmpty() || review.get().isSoftDeleted()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review is not found");
-        }
-        return review.get();
-    }
+
 }

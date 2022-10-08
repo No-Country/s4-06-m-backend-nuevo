@@ -1,8 +1,5 @@
 package ecommerce.eco.model.entity;
 
-import ecommerce.eco.model.enums.ColorEnum;
-import ecommerce.eco.model.enums.SexEnum;
-import ecommerce.eco.model.enums.SizeEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -83,9 +80,7 @@ public class Product {
         return (price * discount) / 100;
     }
 
-    public void addBColor(Color color) {
-        colors.add(color);
-    }
+
 
 
 }

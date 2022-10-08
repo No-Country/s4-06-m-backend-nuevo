@@ -13,14 +13,12 @@ import ecommerce.eco.service.abstraction.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,11 +60,13 @@ public class ProductServiceImpl implements ProductService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
             /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
+            product.setCarrousel(imageService.imagesPost(postImage));
+            product.setCategory(categoryService.findById(request.getCategoryId()));
             product.setColors(colorService.stringToEnty(request.getColors()));
             product.setSizes(sizeService.stringToEnty(request.getSizes()));
-            product.setCategory(categoryService.findById(request.getCategoryId()));
+
             //add image
-            product.setCarrousel(imageService.imagesPost(postImage));
+
             return productMapper.entityToDto(productRepository.save(product));
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product loading error or database connection error");
@@ -132,8 +132,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> findByTitle(String title) {
         List<Product> products = productRepository.findByTitle(title);
-        List<ProductResponse> responses = productMapper.entityToDtoList(products);
-        return responses;
+        return productMapper.entityToDtoList(products);
     }
 
 
