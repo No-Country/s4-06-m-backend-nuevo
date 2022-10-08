@@ -1,8 +1,7 @@
 package ecommerce.eco.controller;
 
-import ecommerce.eco.model.response.ColorResponse;
 import ecommerce.eco.model.response.SizeResponse;
-import ecommerce.eco.service.abstraction.ColorService;
+
 import ecommerce.eco.service.abstraction.SizeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
