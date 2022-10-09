@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 public class Role {
 
     @Id
@@ -30,7 +30,6 @@ public class Role {
 
     @CreationTimestamp
     private Timestamp timestamp;
-
 
 
 }

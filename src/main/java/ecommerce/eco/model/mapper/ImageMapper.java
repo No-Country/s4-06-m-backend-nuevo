@@ -13,5 +13,10 @@ public class ImageMapper {
                 .fileUrl(img.getImageUrl())
                 .build();
     }
+    public Image updateImageMapper(Image img, Image newImaga){
+        img.setImageUrl(newImaga.getImageUrl());
+        img.setFileName(newImaga.getFileName());
+        return img;
+    }
 
 }

@@ -2,10 +2,7 @@ package ecommerce.eco.model.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
@@ -18,4 +15,5 @@ public class Image {
     private Long id;
     private  String fileName;
     private  String imageUrl;
+
 }
