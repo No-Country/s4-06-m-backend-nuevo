@@ -1,33 +1,27 @@
 package ecommerce.eco.model.mapper;
 
 import ecommerce.eco.model.entity.Product;
-import ecommerce.eco.model.entity.Review;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductLightningDealResponse;
 import ecommerce.eco.model.response.ProductResponse;
-import ecommerce.eco.service.abstraction.CategoryService;
-import ecommerce.eco.service.abstraction.ColorService;
-import ecommerce.eco.service.abstraction.SizeService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
-@AllArgsConstructor
 public class ProductMapper {
 
-   @Autowired
-   private  ImageMapper imageMapper;
-    @Autowired
-   private  ColorMapper colorMapper;
-    @Autowired
-    private SizeMapper sizeMapper;
+
+   private final   ImageMapper imageMapper;
+   private final ColorMapper colorMapper;
+
+   private final SizeMapper sizeMapper;
 
 
     public ProductResponse entityToDto(Product product) {

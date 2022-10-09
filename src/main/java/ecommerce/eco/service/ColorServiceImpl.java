@@ -6,7 +6,9 @@ import ecommerce.eco.model.response.ColorResponse;
 import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.service.abstraction.ColorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +25,12 @@ public class ColorServiceImpl implements ColorService {
         return colorRepository.findByName(name);
     }
 
-    @Override
-    public boolean checkList(List<String> colors) {
+    public void checkList(List<String> colors) {
         for (String c : colors) {
-            if (colorRepository.findByName(c.toUpperCase()) == null) {
-                return false;
+            if (colorRepository.findByName(c.toLowerCase()) == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Color no valido: " + c);
             }
         }
-        return true;
     }
 
     @Override
@@ -40,11 +40,17 @@ public class ColorServiceImpl implements ColorService {
                 .collect(Collectors.toList());
     }
     @Override
-    public List<Color> stringToEnty(List<String> request) {
-        List<Color> colors = new ArrayList<>();
-        request.stream()
-                .map(p -> colors.add(findBy(p.toUpperCase())))
-                .collect(Collectors.toList());
-        return colors;
+    public List<Color> stringToEnty(List<String> requests) {
+        List<Color> colors = colorRepository.findAll();
+        checkList(requests);
+        List<Color> colorResponse = new ArrayList<>();
+        for (Color c: colors){
+            for(String s: requests){
+                if(c.getName().equalsIgnoreCase(s)){
+                    colorResponse.add(c);
+                }
+            }
+        }
+        return colorResponse;
     }
 }

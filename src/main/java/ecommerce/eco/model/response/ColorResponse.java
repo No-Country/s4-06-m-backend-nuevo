@@ -2,7 +2,7 @@ package ecommerce.eco.model.response;
 
 import lombok.*;
 
-import javax.persistence.Column;
+
 
 @Builder @Getter @Setter
 @AllArgsConstructor

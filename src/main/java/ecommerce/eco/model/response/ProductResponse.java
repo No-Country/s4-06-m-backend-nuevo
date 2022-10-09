@@ -1,6 +1,5 @@
 package ecommerce.eco.model.response;
 
-import ecommerce.eco.model.entity.Size;
 import lombok.*;
 
 

@@ -1,6 +1,5 @@
 package ecommerce.eco.service.abstraction;
 
-import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.UserUpdateRequest;
 import ecommerce.eco.model.response.UserResponse;

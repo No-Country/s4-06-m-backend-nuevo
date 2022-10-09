@@ -28,7 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-   // private final ProductService productService;
 
     @Override
     public CategoryResponse create(CategoryRequest request) {

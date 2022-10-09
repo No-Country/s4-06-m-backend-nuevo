@@ -5,10 +5,7 @@ import ecommerce.eco.model.request.CategoryRequest;
 import ecommerce.eco.model.response.CategoryDiscountResponse;
 import ecommerce.eco.model.response.CategoryLightningDealResponse;
 import ecommerce.eco.model.response.CategoryResponse;
-import ecommerce.eco.repository.CategoryRepository;
-import ecommerce.eco.service.abstraction.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

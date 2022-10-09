@@ -1,7 +1,5 @@
 package ecommerce.eco.model.request;
 
-
-import ecommerce.eco.model.entity.Category;
 import lombok.*;
 
 import javax.validation.constraints.Min;

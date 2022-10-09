@@ -52,12 +52,12 @@ public class ProductServiceImpl implements ProductService {
         try {
             User user = userService.getInfoUser();
             if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
-            /*Color*/
+            /*Color
             if (!colorService.checkList(request.getColors()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
 
             if (!sizeService.checkList(request.getSizes()))
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");*/
             /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
             product.setCarrousel(imageService.imagesPost(postImage));

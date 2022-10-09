@@ -2,7 +2,6 @@ package ecommerce.eco.model.mapper;
 
 import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.response.ImageResponse;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.stereotype.Component;
 
 @Component
