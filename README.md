@@ -7,5 +7,5 @@ El usuario puede buscar producto por categorio, precio, titulo ect, a su ves se 
 por token y manejo de roles, seguidamente puede comprar y agregar productos al carrito y pagar por Mercado Pago.
 </p>
 
-<h3>:computer: tecnologías Back End </h3>
+<h3>:computer: Tecnologías Back End </h3>
 
