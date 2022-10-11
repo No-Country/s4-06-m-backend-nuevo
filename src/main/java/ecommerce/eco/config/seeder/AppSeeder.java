@@ -6,6 +6,7 @@ import ecommerce.eco.model.enums.SizeEnum;
 import ecommerce.eco.repository.*;
 import ecommerce.eco.model.enums.RolesEnum;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AppSeeder {
     private static final String PASSWORD = "12345678";
