@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -118,7 +118,7 @@ span.price {
 <div class="row">
     <div class="col-75">
         <div class="container">
-            <form method="post"  action="/paypal/pay">
+            <form method="post" th:object="${order}" enctype="multipart/form-data" action="/paypal/pay">
                 <div class="col-50">
                     <h3>Payment</h3>
                     <label>Accepted Cards</label>
