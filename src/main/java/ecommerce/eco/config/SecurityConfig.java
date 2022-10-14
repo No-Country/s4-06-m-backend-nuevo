@@ -86,6 +86,11 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/color/all").permitAll()
                 /*Size*/
                 .antMatchers(HttpMethod.GET, "/size/all").permitAll()
+                /*Paypal*/
+                .antMatchers(HttpMethod.POST, "/paypal/pay").permitAll()
+                .antMatchers(HttpMethod.GET, "/paypal/success").permitAll()
+                .antMatchers(HttpMethod.GET, "/paypal/cancel").permitAll()
+                .antMatchers(HttpMethod.GET, "/paypal/home").permitAll()
 
                 .anyRequest()
                 .authenticated()
