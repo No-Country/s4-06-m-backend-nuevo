@@ -1,6 +1,8 @@
-package ecommerce.eco.model.entity;
+package ecommerce.eco.model.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import ecommerce.eco.model.entity.Product;
+import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.enums.CartEnum;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,31 +12,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-public class Cart {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id")
+@Builder
+public class CartResponse {
     private Long id;
 
     private CartEnum state;// estado
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    private List<ProductCartResponse> products = new ArrayList<>();
 
     private boolean softDeleted = Boolean.FALSE;
 
-    @CreationTimestamp
-    @Column(name = "registration", updatable = false, nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime registration;
 
 
-
+    private UserResponse user;
 }

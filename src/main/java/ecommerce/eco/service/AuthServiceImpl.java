@@ -3,13 +3,17 @@ package ecommerce.eco.service;
 import ecommerce.eco.config.utils.JwtUtil;
 import ecommerce.eco.exception.InvalidCredentialsException;
 import ecommerce.eco.exception.UserAlreadyExistException;
+import ecommerce.eco.model.entity.Cart;
 import ecommerce.eco.model.entity.User;
+import ecommerce.eco.model.enums.CartEnum;
+import ecommerce.eco.model.mapper.CartMapper;
 import ecommerce.eco.model.mapper.UserMapper;
 import ecommerce.eco.model.request.AuthRequest;
 import ecommerce.eco.model.request.UserRequest;
 import ecommerce.eco.model.response.AuthResponse;
 import ecommerce.eco.repository.UserRepository;
 import ecommerce.eco.service.abstraction.AuthService;
+import ecommerce.eco.service.abstraction.CartService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +33,11 @@ public class AuthServiceImpl implements AuthService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final JwtUtil jwtToken;
+    private final CartService cartService;
+
+    private final CartMapper cartMapper;
+
+
 
     private final AuthenticationManager authenticationManager;
 
@@ -42,6 +54,12 @@ public class AuthServiceImpl implements AuthService {
             throw new UserAlreadyExistException("Email is already in use.");
         }
         User userCreate = userRepository.save(userMapper.entityToDto(request));
+        Cart cart = new Cart();
+        cart.setRegistration(LocalDateTime.now());
+        cart.setState(CartEnum.OPEN);
+        userCreate.setCart(cart);
+        cartService.save(cart);
+        userCreate.setCart(cart);
         AuthResponse response = userMapper.dtoToEntity(userCreate);
         response.setToken(jwtToken.generateToken(userCreate));
         return response;

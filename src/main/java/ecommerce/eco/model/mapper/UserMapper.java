@@ -1,11 +1,13 @@
 package ecommerce.eco.model.mapper;
 
+import ecommerce.eco.model.entity.Cart;
 import ecommerce.eco.model.entity.Image;
 import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.UserRequest;
 import ecommerce.eco.model.request.UserUpdateRequest;
 import ecommerce.eco.model.response.AuthResponse;
 import ecommerce.eco.model.response.UserResponse;
+import ecommerce.eco.service.abstraction.CartService;
 import ecommerce.eco.service.abstraction.ImageService;
 import ecommerce.eco.service.abstraction.RoleService;
 import ecommerce.eco.model.enums.RolesEnum;
@@ -22,6 +24,9 @@ public class UserMapper {
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final ImageService imageService;
+
+    private final CartService cartService;
+
     public User entityToDto(UserRequest request) throws IOException {
         return User.builder()
                 .email(request.getEmail())
