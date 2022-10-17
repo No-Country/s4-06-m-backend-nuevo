@@ -28,13 +28,13 @@ public class PaypalController {
 
     @PostMapping("/pay")
     public String payment(@ModelAttribute("order") Order order) {
-        LOGGER.warn(order.getDescription());
+
         try {
             Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
                     order.getIntent(), order.getDescription(),
-                    "http://localhost:8090/paypal" + CANCEL_URL,
-                    "http://localhost:8090/paypal" + SUCCESS_URL);
-
+                    "https://eco-sports.herokuapp.com/" + CANCEL_URL,
+                    "https://eco-sports.herokuapp.com/" + SUCCESS_URL);
+            LOGGER.warn("Salio de crear payment: "+order.getDescription());
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
                     return "redirect:"+link.getHref();
