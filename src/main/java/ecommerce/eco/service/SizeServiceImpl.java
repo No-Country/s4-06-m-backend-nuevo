@@ -1,5 +1,6 @@
 package ecommerce.eco.service;
 
+import ecommerce.eco.model.entity.Color;
 import ecommerce.eco.model.entity.Size;
 import ecommerce.eco.model.mapper.SizeMapper;
 import ecommerce.eco.model.response.SizeResponse;
@@ -21,15 +22,19 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public Size findBy(String name) {
-        return sizeRepository.findByName(name);
+        Size size=sizeRepository.findByName(name.toLowerCase()).get();
+        if (size==null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not found");
+        return size;
     }
 
-    public void checkList(List<String> sizes) {
-        for (String s : sizes) {
-            if (sizeRepository.findByName(s.toUpperCase()) == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Talle no valido: " + s);
+    @Override
+    public boolean checkList(List<String> sizes) {
+        for (String c: sizes) {
+            if (sizeRepository.findByName(c.toUpperCase()) == null) {
+                return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -39,17 +44,11 @@ public class SizeServiceImpl implements SizeService {
                 .collect(Collectors.toList());
     }
     @Override
-    public List<Size> stringToEnty(List<String> requests) {
-        List<Size> sizes = sizeRepository.findAll();
-        checkList(requests);
-        List<Size> sizesResponse = new ArrayList<>();
-        for (Size size : sizes) {
-            for (String s : requests) {
-                if (size.getName().equalsIgnoreCase(s)) {
-                    sizesResponse.add(size);
-                }
-            }
-        }
-        return sizesResponse;
+    public List<Size> stringToEnty(List<String> request) {
+        List<Size> sizes = new ArrayList<>();
+        request.stream()
+                .map(p -> sizes.add(findBy(p.toUpperCase())))
+                .collect(Collectors.toList());
+        return sizes;
     }
 }

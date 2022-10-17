@@ -37,9 +37,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ImageService imageService;
 
-    private final ColorService colorService;
+    private  final ColorService colorService;
 
-    private final SizeService sizeService;
+    private  final SizeService sizeService;
 
     private final ProductSpecifications productSpecifications;
 
@@ -52,14 +52,19 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse add(List<MultipartFile> postImage, ProductRequest request) {
         try {
             User user = userService.getInfoUser();
-            if (user == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
-
+            if (user == null)throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
+            LOGGER.warn("El usuario es:"+user.getEmail());
+            /*Color*/
+            if (!colorService.checkListColor(request.getColors())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+            if (!sizeService.checkList(request.getSizes())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");            }
+            /*new product*/
             Product product = productMapper.dtoToProduct(request, user);
             product.setCarrousel(imageService.imagesPost(postImage));
             product.setCategory(categoryService.findById(request.getCategoryId()));
             product.setColors(colorService.stringToEnty(request.getColors()));
             product.setSizes(sizeService.stringToEnty(request.getSizes()));
-
+            //add image
             return productMapper.entityToDto(productRepository.save(product));
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product loading error or database connection error");
@@ -127,14 +132,11 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findByTitle(title);
         return productMapper.entityToDtoList(products);
     }
-
     @Override
     public ProductReviewsResponse getByIdProduct(Long idProduct) {
         Product product = getProduct(idProduct);
         ProductReviewsResponse response = productMapper.dtoToReview(product);
         return response;
     }
-
-
 }
 

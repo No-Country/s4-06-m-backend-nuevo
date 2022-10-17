@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Component
 public class ProductMapper {
 
-
    private final   ImageMapper imageMapper;
    private final ColorMapper colorMapper;
 
@@ -47,8 +46,6 @@ public class ProductMapper {
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
-               // .reviewResponseList(product.getReviews().stream().map(reviewMapper::dtoToEntity)
-               //         .collect(Collectors.toList()))
                 .build();
     }
 
@@ -58,10 +55,7 @@ public class ProductMapper {
                 .details(request.getDetails())
                 .title(request.getTitle())
                 .brand(request.getBrand())
-               // .colors(colorService.stringToEnty(request.getColors()))
-               // .sizes(sizeService.stringToEnty(request.getSizes()))
                 .cart(null)
-               // .category(categoryService.findById(request.getCategoryId()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .reviews(null)
@@ -87,8 +81,6 @@ public class ProductMapper {
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
-                //.reviewResponses(product.getReviews().stream().map(reviewMapper::dtoToEntity).collect(
-                //        Collectors.toList()))
                 .build();
     }
 

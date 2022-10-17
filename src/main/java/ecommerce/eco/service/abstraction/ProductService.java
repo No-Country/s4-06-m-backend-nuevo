@@ -19,6 +19,5 @@ public interface ProductService {
     List<ProductResponse> getAll();
     List<ProductResponse> findByDetailsOrTitle(String details, String title);
     List<ProductResponse> findByTitle(String title);
-
     ProductReviewsResponse getByIdProduct(Long idProduct);
 }
