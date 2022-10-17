@@ -34,7 +34,6 @@ public class PaypalController {
                     order.getIntent(), order.getDescription(),
                     "https://eco-sports.herokuapp.com/" + CANCEL_URL,
                     "https://eco-sports.herokuapp.com/" + SUCCESS_URL);
-            LOGGER.warn("Salio de crear payment: "+order.getDescription());
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
                     return "redirect:"+link.getHref();

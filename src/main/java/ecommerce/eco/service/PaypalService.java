@@ -31,25 +31,17 @@ public class PaypalService {
         Amount amount = new Amount();
         amount.setCurrency(currency);
         total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        amount.setTotal(String.format("%.2f", total));
-        LOGGER.warn("Ei total es :" + amount.getTotal());
+        amount.setTotal(String.valueOf(total ));
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
         transaction.setAmount(amount);
-
-        LOGGER.warn("tranastion es :" + transaction.getDescription());
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(transaction);
-
         Payer payer = new Payer();
         payer.setPaymentMethod(method.toString());
-
-        LOGGER.warn("el metodo es: "+ method);
         Payment payment = new Payment();
         payment.setIntent(intent.toString());
-        LOGGER.error("El intent de payer es: "+ payment.getIntent());
         payment.setPayer(payer);
-        LOGGER.warn("El payer es: "+payer.getAccountAge()+" el payment payer: "+payment.getPayer().getAccountAge());
         payment.setTransactions(transactions);
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(cancelUrl);
