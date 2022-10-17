@@ -2,6 +2,7 @@ package ecommerce.eco.controller;
 
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
+import ecommerce.eco.model.response.ProductReviewsResponse;
 import ecommerce.eco.service.abstraction.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,6 +52,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
     @ApiOperation(value = "Filter method", notes = "Returns a list product and properties and description")
     @GetMapping("/filter/details")
     public List<ProductResponse> getDetailsByFilters(
@@ -59,6 +61,12 @@ public class ProductController {
             @RequestParam(required = false, defaultValue = "ASC") String order) {
 
         return productService.findByDetailsOrTitle(title, order);
+    }
+
+    @GetMapping("/review/{idProduct}")
+    public ResponseEntity<ProductReviewsResponse> getReviewToProduct(@PathVariable Long idProduct){
+        ProductReviewsResponse responses = productService.getByIdProduct(idProduct);
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
 }
