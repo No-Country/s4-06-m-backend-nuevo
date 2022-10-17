@@ -75,6 +75,8 @@ public class SecurityConfig {
                 // Review
                 .antMatchers(HttpMethod.POST, "/review/add").permitAll()
                 .antMatchers(HttpMethod.PUT, "/review/{id}").permitAll()
+                .antMatchers(HttpMethod.GET,"/review/{idReview}").permitAll()
+                .antMatchers(HttpMethod.GET,"/review/all").permitAll()
                 /*Product*/
                 .antMatchers(HttpMethod.POST, "/product/add").permitAll()
                 .antMatchers(HttpMethod.GET, "/product/{id}").permitAll()
@@ -82,6 +84,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE, "/product/{id}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/product/update").permitAll()
                 .antMatchers(HttpMethod.GET, "/product/filter/details").permitAll()
+                .antMatchers(HttpMethod.GET,"/product/review/{idProduct}").permitAll()
                 /*Color*/
                 .antMatchers(HttpMethod.GET, "/color/all").permitAll()
                 /*Size*/

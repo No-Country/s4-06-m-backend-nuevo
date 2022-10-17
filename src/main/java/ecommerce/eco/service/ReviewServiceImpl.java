@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -54,6 +55,27 @@ public class ReviewServiceImpl implements ReviewService {
         reviewMapper.reviewUpdate(review.get(), request);
         Review reviewCreate = reviewRepository.save(review.get());
         return reviewMapper.dtoToEntity(reviewCreate);
+    }
+
+    @Override
+    public ReviewResponse getById(Long id) {
+        Review review = getReview(id);
+        return reviewMapper.dtoToEntity(review);
+    }
+
+    @Override
+    public List<ReviewResponse> getAll() {
+        List<Review> reviews = reviewRepository.findAll();
+        List<ReviewResponse> responses = reviewMapper.dtoToEntityList(reviews);
+        return responses;
+    }
+
+    private Review getReview(Long id) {
+        Optional<Review> review = reviewRepository.findById(id);
+        if(review.isEmpty() || review.get().isSoftDeleted()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "review not found");
+        }
+        return review.get();
     }
 
 

@@ -8,6 +8,7 @@ import ecommerce.eco.model.mapper.ProductMapper;
 import ecommerce.eco.model.request.ProductFilterRequest;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductResponse;
+import ecommerce.eco.model.response.ProductReviewsResponse;
 import ecommerce.eco.repository.ProductRepository;
 import ecommerce.eco.service.abstraction.*;
 import lombok.RequiredArgsConstructor;
@@ -125,6 +126,13 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponse> findByTitle(String title) {
         List<Product> products = productRepository.findByTitle(title);
         return productMapper.entityToDtoList(products);
+    }
+
+    @Override
+    public ProductReviewsResponse getByIdProduct(Long idProduct) {
+        Product product = getProduct(idProduct);
+        ProductReviewsResponse response = productMapper.dtoToReview(product);
+        return response;
     }
 
 

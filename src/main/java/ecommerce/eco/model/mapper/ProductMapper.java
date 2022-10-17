@@ -6,6 +6,7 @@ import ecommerce.eco.model.entity.User;
 import ecommerce.eco.model.request.ProductRequest;
 import ecommerce.eco.model.response.ProductLightningDealResponse;
 import ecommerce.eco.model.response.ProductResponse;
+import ecommerce.eco.model.response.ProductReviewsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ public class ProductMapper {
    private final ColorMapper colorMapper;
 
    private final SizeMapper sizeMapper;
+   private final ReviewMapper reviewMapper;
 
 
     public ProductResponse entityToDto(Product product) {
@@ -125,5 +127,12 @@ public class ProductMapper {
             responses.add(productResponse);
         }
         return responses;
+    }
+
+    public ProductReviewsResponse dtoToReview(Product product) {
+        return ProductReviewsResponse.builder()
+                .reviewResponses(product.getReviews().stream().map(reviewMapper::dtoToEntity).collect(
+                        Collectors.toList()))
+                .build();
     }
 }
