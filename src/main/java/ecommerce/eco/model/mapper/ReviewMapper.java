@@ -6,6 +6,8 @@ import ecommerce.eco.model.response.ReviewResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -37,4 +39,18 @@ public class ReviewMapper {
 
     }
 
+    public List<ReviewResponse> dtoToEntityList(List<Review> reviews) {
+        List<ReviewResponse> responses = new ArrayList<>();
+        ReviewResponse response;
+        for (Review r: reviews){
+            response = new ReviewResponse();
+            response.setId(r.getId());
+            response.setComment(r.getComment());
+            response.setTime(r.getTime());
+            response.setUsername(r.getUsername());
+
+            responses.add(response);
+        }
+        return responses;
+    }
 }

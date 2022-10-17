@@ -27,6 +27,5 @@ public class ProductResponse {
     private String category;
     private int view;
     private List<ImageResponse> imgList;
-    //private List<ReviewResponse> reviewResponseList;
 
 }

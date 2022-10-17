@@ -1,6 +1,7 @@
 package ecommerce.eco.controller;
 
 import ecommerce.eco.model.request.ReviewRequest;
+import ecommerce.eco.model.response.ProductReviewsResponse;
 import ecommerce.eco.model.response.ReviewResponse;
 import ecommerce.eco.service.abstraction.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
@@ -29,4 +31,17 @@ public class ReviewController {
         ReviewResponse response = reviewService.update(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+    @GetMapping("/{idReview}")
+    public ResponseEntity<ReviewResponse> getById(@PathVariable Long idReview){
+        ReviewResponse response = reviewService.getById(idReview);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ReviewResponse>> getAll(){
+        List<ReviewResponse> responses = reviewService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
+    }
+
+
 }
