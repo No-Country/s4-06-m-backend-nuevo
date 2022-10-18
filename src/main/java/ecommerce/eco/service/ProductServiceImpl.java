@@ -56,10 +56,11 @@ public class ProductServiceImpl implements ProductService {
             LOGGER.warn("El usuario es:"+user.getEmail());
             /*Color*/
             Boolean color=colorService.checkListColor(request.getColors());
-            if (!color) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+            if (!color) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");}
             if (!sizeService.checkList(request.getSizes())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");            }
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");  }
             /*new product*/
+
             Product product = productMapper.dtoToProduct(request, user);
             product.setCarrousel(imageService.imagesPost(postImage));
             product.setCategory(categoryService.findById(request.getCategoryId()));

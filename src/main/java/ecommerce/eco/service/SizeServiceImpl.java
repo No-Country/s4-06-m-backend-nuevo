@@ -1,12 +1,13 @@
 package ecommerce.eco.service;
 
-import ecommerce.eco.model.entity.Color;
 import ecommerce.eco.model.entity.Size;
 import ecommerce.eco.model.mapper.SizeMapper;
 import ecommerce.eco.model.response.SizeResponse;
 import ecommerce.eco.repository.SizeRepository;
 import ecommerce.eco.service.abstraction.SizeService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,11 +20,12 @@ import java.util.stream.Collectors;
 public class SizeServiceImpl implements SizeService {
     private final SizeRepository sizeRepository;
     private final SizeMapper sizeMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SizeServiceImpl.class);
 
     @Override
     public Size findBy(String name) {
-        Size size=sizeRepository.findByName(name.toLowerCase()).get();
-        if (size==null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not found");
+        Size size=sizeRepository.findByName(name.toUpperCase()).get();
+        if (size==null) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not found");}
         return size;
     }
 

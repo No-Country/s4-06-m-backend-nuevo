@@ -25,17 +25,20 @@ public class ColorServiceImpl implements ColorService {
     @Override
     public Color findBy(String name) {
         Color color=colorRepository.findByName(name.toLowerCase()).get();
-        if (color==null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not found");
+        if (color==null) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not found");}
+
         return color;
     }
 
     @Override
     public Boolean checkListColor(List<String> colors) {
         for (String color : colors) {
+            LOGGER.warn(color.toLowerCase());
             Color c= findBy(color.toLowerCase());
             if ( c== null) {
                 return Boolean.FALSE;
             }
+            LOGGER.warn(color.toUpperCase());
         }
         return Boolean.TRUE;
     }
