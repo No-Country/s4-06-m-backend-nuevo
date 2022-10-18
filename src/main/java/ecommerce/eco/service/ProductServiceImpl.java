@@ -55,7 +55,8 @@ public class ProductServiceImpl implements ProductService {
             if (user == null)throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in");
             LOGGER.warn("El usuario es:"+user.getEmail());
             /*Color*/
-            if (!colorService.checkListColor(request.getColors())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
+            Boolean color=colorService.checkListColor(request.getColors());
+            if (!color) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not valid");
             if (!sizeService.checkList(request.getSizes())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Size not valid");            }
             /*new product*/
@@ -65,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
             product.setColors(colorService.stringToEnty(request.getColors()));
             product.setSizes(sizeService.stringToEnty(request.getSizes()));
             //add image
-            return productMapper.entityToDto(productRepository.save(product));
+            Product pCreated=productRepository.save(product);
+            return productMapper.entityToDto(pCreated);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product loading error or database connection error");
         }
