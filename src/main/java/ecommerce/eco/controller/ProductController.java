@@ -22,10 +22,10 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @ApiOperation(value = "Registration of a product", notes = "Returns product created")
+    @ApiOperation(value = "egistration of a product", notes = "Returns product created")
     @PostMapping("/add")
-    public ResponseEntity<ProductResponse> upload(
-            @RequestPart(value = "postimages", required = false) List<MultipartFile> postImage,
+    public ResponseEntity<ProductResponse> uploadFiles(
+            @RequestParam(value="postimages", required = false) List<MultipartFile> postImage ,
             @RequestPart(value = "product", required = true) ProductRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.add(postImage, request));
 

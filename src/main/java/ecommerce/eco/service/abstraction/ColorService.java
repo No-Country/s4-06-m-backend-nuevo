@@ -7,8 +7,8 @@ import java.util.List;
 
 
 public interface ColorService {
-    Color findBy(String name);
-    //boolean checkList(List<String> colors);
-    List<ColorResponse> findAll();
-    List<Color> stringToEnty(List<String> request);
+    public Color findBy(String name);
+    public Boolean checkListColor(List<String> colors);
+    public List<ColorResponse> findAll();
+    public List<Color> stringToEnty(List<String> request);
 }
