@@ -1,5 +1,6 @@
 package ecommerce.eco.model.mapper;
 
+import ecommerce.eco.model.entity.Cart;
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class ProductMapper {
-
 
    private final   ImageMapper imageMapper;
    private final ColorMapper colorMapper;
@@ -47,8 +47,6 @@ public class ProductMapper {
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
-               // .reviewResponseList(product.getReviews().stream().map(reviewMapper::dtoToEntity)
-               //         .collect(Collectors.toList()))
                 .build();
     }
 
@@ -58,13 +56,10 @@ public class ProductMapper {
                 .details(request.getDetails())
                 .title(request.getTitle())
                 .brand(request.getBrand())
-               // .colors(colorService.stringToEnty(request.getColors()))
-               // .sizes(sizeService.stringToEnty(request.getSizes()))
                 .cart(null)
-               // .category(categoryService.findById(request.getCategoryId()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
-                .reviews(null)
+                .reviews(List.of())
                 .stock(request.isStock())
                 .view(request.getView())
                 .stars(request.getStar())
@@ -87,8 +82,6 @@ public class ProductMapper {
                 .imgList(product.getCarrousel().stream()
                         .map(imageMapper::imageToDto)
                         .collect(Collectors.toList()))
-                //.reviewResponses(product.getReviews().stream().map(reviewMapper::dtoToEntity).collect(
-                //        Collectors.toList()))
                 .build();
     }
 

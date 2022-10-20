@@ -30,7 +30,9 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> imagesPost(List<MultipartFile> postImage) {
         List<Image> imagesPost=new ArrayList<>();
         for (MultipartFile m: postImage ) {
-            imagesPost.add(imageRepository.save(awsService.uploadFile(m)));
+            if(m==null||m.isEmpty()){
+                imagesPost.add(imageRepository.findById(1L).get());
+            }else { imagesPost.add(imageRepository.save(awsService.uploadFile(m)));}
         }
         LOGGER.warn("Array de amazon creado "+imagesPost.size());
         return imagesPost;
@@ -65,8 +67,6 @@ public class ImageServiceImpl implements ImageService {
     public MultipartFile userDefault() throws IOException {
         String sCarpAct = System.getProperty("user.dir");
         InputStream inputStream = new FileInputStream(sCarpAct + "/src/main/resources/static/images/user.webp");
-       return new MockMultipartFile("user.webp", "user.webp", "webp", inputStream);
+        return new MockMultipartFile("user.webp", "user.webp", "webp", inputStream);
     }
-
-
 }

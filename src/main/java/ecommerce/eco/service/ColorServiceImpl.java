@@ -6,6 +6,8 @@ import ecommerce.eco.model.response.ColorResponse;
 import ecommerce.eco.repository.ColorRepository;
 import ecommerce.eco.service.abstraction.ColorService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,18 +21,26 @@ import java.util.stream.Collectors;
 public class ColorServiceImpl implements ColorService {
     private final ColorRepository colorRepository;
     private final ColorMapper colorMapper;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ColorServiceImpl.class);
     @Override
     public Color findBy(String name) {
-        return colorRepository.findByName(name);
+        Color color=colorRepository.findByName(name.toLowerCase()).get();
+        if (color==null) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Color not found");}
+
+        return color;
     }
 
-    public void checkList(List<String> colors) {
-        for (String c : colors) {
-            if (colorRepository.findByName(c.toLowerCase()) == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Color no valido: " + c);
+    @Override
+    public Boolean checkListColor(List<String> colors) {
+        for (String color : colors) {
+            LOGGER.warn(color.toLowerCase());
+            Color c= findBy(color.toLowerCase());
+            if ( c== null) {
+                return Boolean.FALSE;
             }
+            LOGGER.warn(color.toUpperCase());
         }
+        return Boolean.TRUE;
     }
 
     @Override
@@ -40,17 +50,11 @@ public class ColorServiceImpl implements ColorService {
                 .collect(Collectors.toList());
     }
     @Override
-    public List<Color> stringToEnty(List<String> requests) {
-        List<Color> colors = colorRepository.findAll();
-        checkList(requests);
-        List<Color> colorResponse = new ArrayList<>();
-        for (Color c: colors){
-            for(String s: requests){
-                if(c.getName().equalsIgnoreCase(s)){
-                    colorResponse.add(c);
-                }
-            }
-        }
-        return colorResponse;
+    public List<Color> stringToEnty(List<String> request) {
+        List<Color> colors = new ArrayList<>();
+        request.stream()
+                .map(p -> colors.add(findBy(p.toUpperCase())))
+                .collect(Collectors.toList());
+        return colors;
     }
 }
