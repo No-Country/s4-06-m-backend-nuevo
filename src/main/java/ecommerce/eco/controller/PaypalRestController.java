@@ -8,6 +8,7 @@ import ecommerce.eco.service.PaypalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,8 +32,8 @@ public class PaypalRestController {
         try {
             Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
                     order.getIntent(), order.getDescription(),
-                    "http://localhost:8080/" + CANCEL_URL,
-                    "http://localhost:8080/" + SUCCESS_URL);
+                    "https://eco-sports.herokuapp.com/" + CANCEL_URL,
+                    "https://eco-sports.herokuapp.com/" + SUCCESS_URL);
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
                     return "redirect:"+link.getHref();
