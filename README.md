@@ -30,7 +30,7 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 
 <h4>Diagrama ER</h4>
 
-<img src="C:\Users\abel_\OneDrive\Documentos\s4-06-m-backend-nuevo\src\main\resources\static\images\diagrama-er-ecommerce.png" width="400" height="300"/>
+<img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300">
 
 <h2>Integrantes</h2>
 
