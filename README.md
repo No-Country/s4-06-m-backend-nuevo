@@ -33,3 +33,8 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 - Santiago Schroh (_`Front end`_)
 - Gabriel Navarro (_`Back end java`_)- :brain:[gabynavarro](https://github.com/gabynavarro)
 - Abel Acevedo (_`Back end java `_)- :space_invader:[Abel3581](https://github.com/Abel3581)
+
+### Linkedin
+
+- :space_invader:[Abel Acevedo](https://www.linkedin.com/in/abel-fernando-acevedo/)
+- :brain:[Gabriel Navarro](https://www.linkedin.com/in/gabriel-navarro-233388219/)
