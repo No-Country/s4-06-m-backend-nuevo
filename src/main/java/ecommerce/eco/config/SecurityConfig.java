@@ -94,7 +94,11 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/paypal/success").permitAll()
                 .antMatchers(HttpMethod.GET, "/paypal/cancel").permitAll()
                 .antMatchers(HttpMethod.GET, "/paypal/home").permitAll()
-
+                /*paypalRest*/
+                .antMatchers(HttpMethod.POST,"/paypalRest/pay").permitAll()
+                .antMatchers(HttpMethod.GET, "/paypalRest/success").permitAll()
+                .antMatchers(HttpMethod.GET, "/paypalRest/cancel").permitAll()
+                .antMatchers(HttpMethod.GET, "/paypalRest/home").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
