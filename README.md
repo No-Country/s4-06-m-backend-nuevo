@@ -21,6 +21,7 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 
 
 <h3>:computer: Tecnologías Front End </h3>
+
 - ✅ React
 - ✅ Redux toolkit
 - ✅ JavaScript
