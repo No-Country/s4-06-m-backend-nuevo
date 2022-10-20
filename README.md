@@ -17,6 +17,8 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 - ✅Arquitectura en capas MVC
 - ✅Swagger
 - ✅JWT TOKEN
+- ✅Base de datos Mysql
+- ✅jpa-hibernate
 
 
 <h3>:computer: Tecnologías Front End </h3>
