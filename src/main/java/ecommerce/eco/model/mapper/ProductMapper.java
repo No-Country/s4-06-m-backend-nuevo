@@ -1,5 +1,6 @@
 package ecommerce.eco.model.mapper;
 
+import ecommerce.eco.model.entity.Cart;
 import ecommerce.eco.model.entity.Product;
 import ecommerce.eco.model.response.ProductDiscountResponse;
 import ecommerce.eco.model.entity.User;
@@ -64,7 +65,7 @@ public class ProductMapper {
                // .category(categoryService.findById(request.getCategoryId()))
                 .categoryId(request.getCategoryId())
                 .price(request.getPrice())
-                .reviews(null)
+                .reviews(List.of())
                 .stock(request.isStock())
                 .view(request.getView())
                 .stars(request.getStar())
