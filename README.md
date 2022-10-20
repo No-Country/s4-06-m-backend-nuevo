@@ -27,16 +27,23 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 - ✅ Redux toolkit
 - ✅ JavaScript
 
-<h2>Integrantes</h2>
+
+<h4>Diagrama ER</h4>
+<img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300">
+
+<h4>Deploy Back-End</h4>
+:heavy_check_mark: https://eco-sports.herokuapp.com/swagger-ui/index.html#/
+
+<h5>Integrantes</h5>
 
 - Diana Zambrano (_`UX/UI`_)
 - Cristian Mosquera (_`Front end`_)
 - Lucas Abdala (_`Front end`_)
 - Santiago Schroh (_`Front end`_)
-- Gabriel Navarro (_`Back end java`_)- :brain:[gabynavarro](https://github.com/gabynavarro)
-- Abel Acevedo (_`Back end java `_)- :space_invader:[Abel3581](https://github.com/Abel3581)
+- Gabriel Navarro (_`Back end java`_)- :smirk:[gabynavarro](https://github.com/gabynavarro)
+- Abel Acevedo (_`Back end java `_)- :sunglasses:[Abel3581](https://github.com/Abel3581)
 
-### Linkedin
+<h5>Linkedin</h5>
 
 - :space_invader:[Abel Acevedo](https://www.linkedin.com/in/abel-fernando-acevedo/)
-- :brain:[Gabriel Navarro](https://www.linkedin.com/in/gabriel-navarro-233388219/)
+- :smirk:[Gabriel Navarro](https://www.linkedin.com/in/gabriel-navarro-233388219/)
