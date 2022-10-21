@@ -36,10 +36,6 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 <h4>Deploy Front-End</h4>
 - :heavy_check_mark:[Deploy](https://s4-06-m-java-react-wljq-git-cris-nocountryc6.vercel.app/)
 
-<h3>Video explicativo</h3>
-
-[video git.webm](https://user-images.githubusercontent.com/59884602/197290213-3a71d7fd-2edb-457a-94da-a78cb725702f.webm | width="400" height="300")
-
 <h5>Integrantes</h5>
 
 - Diana Zambrano (_`UX/UI`_)
