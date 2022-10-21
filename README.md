@@ -32,9 +32,9 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 <img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300">
 
 <h4>Deploy Back-End</h4>
-:heavy_check_mark:[Swagger heroku](https://eco-sports.herokuapp.com/swagger-ui/index.html#/)
+- :heavy_check_mark:[Swagger heroku](https://eco-sports.herokuapp.com/swagger-ui/index.html#/)
 <h4>Deploy Front-End</h4>
-:heavy_check_mark:[Vercel deploy](https://s4-06-m-java-react-wljq-git-cris-nocountryc6.vercel.app/)
+- :heavy_check_mark:[Vercel deploy](https://s4-06-m-java-react-wljq-git-cris-nocountryc6.vercel.app/)
 
 <h5>Integrantes</h5>
 
