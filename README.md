@@ -1,4 +1,4 @@
-
+<img src="https://github.com/No-Country/s4-06-m-backend-nuevo/blob/main/src/main/resources/static/images/portada.png"></img>
 <h2>Proyecto: Ecommerce Ecologico Sport.</h2>
 <p>Es un ecommerce donde una empresa puede publicar su ropa ecologica y venderla, donde el admin puede cargar productos
 con sus imagenes, crear categorias, actualizar datos,borrar productos y usuarios.<br>
