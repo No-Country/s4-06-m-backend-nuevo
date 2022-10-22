@@ -19,6 +19,8 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 - ✅JWT TOKEN
 - ✅Base de datos Mysql
 - ✅jpa-hibernate
+- ✅aws para las imagenes
+- ✅Paypal para el pago
 
 
 <h3>:computer: Tecnologías Front End </h3>
@@ -29,12 +31,12 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 
 
 <h4>Diagrama ER</h4>
-<img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300">
+<img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300"/>
 
 <h4>Deploy Back-End</h4>
-:heavy_check_mark: [Swagger-heroku](https://eco-sports.herokuapp.com/swagger-ui/index.html#/)
+- :heavy_check_mark:[Swagger](https://eco-sports.herokuapp.com/swagger-ui/index.html#/)
 <h4>Deploy Front-End</h4>
-:heavy_check_mark: [Vercel-deploy](https://s4-06-m-java-react-wljq-git-cris-nocountryc6.vercel.app/)
+- :heavy_check_mark:[Vercel](https://s4-06-m-java-react-wljq-git-cris-nocountryc6.vercel.app/)
 
 <h5>Integrantes</h5>
 
