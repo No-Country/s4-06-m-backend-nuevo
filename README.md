@@ -1,11 +1,17 @@
 <img src="https://github.com/No-Country/s4-06-m-backend-nuevo/blob/main/src/main/resources/static/images/portada.png"></img>
 <h2>Proyecto: Ecommerce Ecologico Sport.</h2>
-<p>Es un ecommerce donde una empresa puede publicar su ropa ecologica y venderla, donde el admin puede cargar productos
-con sus imagenes, crear categorias, actualizar datos,borrar productos y usuarios.<br>
-El usuario puede buscar producto por categorio, precio, titulo ect, a su ves se puede loguear y registrar con la seguridad
-por token y manejo de roles, seguidamente puede comprar y agregar productos al carrito y pagar por Mercado Pago.
+<p>Es un ecommerce donde una empresa puede publicar su ropa ecológica y venderla, donde el admin puede cargar productos
+con sus imágenes, crear categorías, actualizar datos,borrar productos y usuarios.<br>
+El usuario puede buscar producto por categoría, precio, titulo ect, a su ves se puede loguear y registrar con la seguridad
+por token y manejo de roles, seguidamente puede comprar y agregar productos al carrito y pagar por Paypal.
 </p>
 
+
+
+It is an ecommerce where a company can publish its ecological clothing and sell it, where the admin can upload products
+with your images, create categories, update data, delete products and users.<br>
+The user can search for a product by category, price, title, etc. At the same time, you can log in and register with security.
+by token and role management, then you can buy and add products to the cart and pay by Paypal.
 <h3>:computer: Tecnologías Back End </h3>
 
 - ✅Java-11
@@ -13,13 +19,13 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 - ✅lombok
 - ✅Builder
 - ✅Spring security
-- ✅Programacion funcional
+- ✅Programación funcional
 - ✅Arquitectura en capas MVC
 - ✅Swagger
 - ✅JWT TOKEN
 - ✅Base de datos Mysql
 - ✅jpa-hibernate
-- ✅aws para las imagenes
+- ✅AWS service para las imagenes
 - ✅Paypal para el pago
 
 
