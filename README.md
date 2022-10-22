@@ -31,7 +31,7 @@ por token y manejo de roles, seguidamente puede comprar y agregar productos al c
 
 
 <h4>Diagrama ER</h4>
-<img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300"/>
+<img src="src/main/resources/static/images/diagrama-er-ecommerce.png" width="400" height="300">
 
 <h4>Deploy Back-End</h4>
 - :heavy_check_mark:[Swagger](https://eco-sports.herokuapp.com/swagger-ui/index.html#/)
